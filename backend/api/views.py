@@ -81,10 +81,9 @@ class RegisterView(generics.CreateAPIView):
         )
 
         # Send verification email
-        EmailService.send_email_verification(
-            user.email,
-            email_verification.token,
-            user.first_name or user.username
+        EmailService.send_verification_email(
+            user,
+            email_verification.token
         )
 
         # Log the signup

@@ -163,10 +163,9 @@ class SendEmailVerificationView(APIView):
             email_verification.save()
 
         # Send email
-        EmailService.send_email_verification(
-            user.email,
-            email_verification.token,
-            user.username
+        EmailService.send_verification_email(
+            user,
+            email_verification.token
         )
 
         return Response({

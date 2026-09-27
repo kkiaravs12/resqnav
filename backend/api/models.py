@@ -112,26 +112,13 @@ class EmergencyNotification(models.Model):
 
 class EmergencyService(models.Model):
     class Category(models.TextChoices):
-        # Emergency Services
+        # Emergency Services Only
         HOSPITAL = "Hospital", "Hospital"
         AMBULANCE = "Ambulance", "Ambulance"
         POLICE = "Police", "Police"
         FIRE_STATION = "Fire Station", "Fire Station"
         PHARMACY = "Pharmacy", "Pharmacy"
-        
-        # Home Services
-        PLUMBER = "Plumber", "Plumber"
-        ELECTRICIAN = "Electrician", "Electrician"
         MECHANIC = "Mechanic", "Mechanic"
-        CARPENTER = "Carpenter", "Carpenter"
-        LOCKSMITH = "Locksmith", "Locksmith"
-        CLEANING = "Cleaning", "Cleaning Service"
-        PEST_CONTROL = "Pest Control", "Pest Control"
-        
-        # Professional Services
-        TAXI = "Taxi", "Taxi"
-        TOWING = "Towing", "Towing Service"
-        VETERINARY = "Veterinary", "Veterinary"
 
     class Status(models.TextChoices):
         OPEN_24_HOURS = "Open 24 hours", "Open 24 hours"
