@@ -31,6 +31,9 @@ COPY --from=builder /opt/venv /opt/venv
 # Copy application
 COPY . .
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Create non-root user and set permissions
 RUN useradd -m -u 1000 appuser && \
     chown -R appuser:appuser /app && \
@@ -45,4 +48,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 # Run gunicorn
 EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "sync", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-", "config.wsgi:application"]
+CMD ["./start.sh"]
