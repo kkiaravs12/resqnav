@@ -239,9 +239,15 @@ class EmergencySMSAlert:
     """Specialized SMS alerts for emergency scenarios"""
     
     @staticmethod
-    def send_emergency_alert(contact_phone: str, alert_type: str, location: str, user_name: str) -> dict:
+    def send_emergency_alert(contact_phone: str, alert_type: str, location: str, user_name: str, user_phone: str = None) -> dict:
         """Send emergency alert SMS"""
-        message = f"🚨 EMERGENCY ALERT: {user_name} triggered {alert_type} alert at {location}. Check ResQNav app for details."
+        message = f"🚨 EMERGENCY ALERT\n\n{user_name} needs help!\nType: {alert_type}\nLocation: {location}"
+        
+        if user_phone:
+            message += f"\nContact: {user_phone}"
+        
+        message += "\n\nCheck ResQNav app for live location."
+        
         return SMSServiceProduction.send_sms(contact_phone, message, 'emergency')
     
     @staticmethod

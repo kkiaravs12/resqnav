@@ -316,6 +316,14 @@ class TriggerEmergencyAlertView(APIView):
         
         # Prepare alert details
         user_name = user.get_full_name() or user.username
+        
+        # Get user's phone number from profile
+        user_phone = None
+        try:
+            user_phone = user.profile.phone_number if hasattr(user, 'profile') else None
+        except:
+            pass
+        
         location_text = alert.address or f"Lat: {alert.latitude}, Lng: {alert.longitude}" if alert.latitude and alert.longitude else "Location unavailable"
         
         # Google Maps link if coordinates available
@@ -341,11 +349,12 @@ class TriggerEmergencyAlertView(APIView):
             )
             
             # Actually send the SMS
-            sms_result = SMSService.send_emergency_alert(
-                phone_number=contact.phone,
-                message=alert.message,
+            sms_result = EmergencySMSAlert.send_emergency_alert(
+                contact_phone=contact.phone,
+                alert_type=alert.alert_type.upper(),
+                location=location_text,
                 user_name=user_name,
-                location=location_text
+                user_phone=user_phone
             )
             
             if sms_result.get('success'):
