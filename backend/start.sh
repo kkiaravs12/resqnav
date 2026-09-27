@@ -9,6 +9,10 @@ echo "🚀 Starting ResQNav Backend..."
 echo "📦 Running database migrations..."
 python manage.py migrate --noinput
 
+# Seed emergency services (only on first deploy or when needed)
+echo "🌱 Seeding emergency services..."
+python manage.py seed_emergency_services
+
 # Collect static files
 echo "📁 Collecting static files..."
 python manage.py collectstatic --noinput --clear
