@@ -96,19 +96,21 @@ class SMSServiceProduction:
             )
             
             if 200 <= response.status_code < 300:
-                logger.info(f"SMS sent via MSG91 to {phone_number}")
+                response_data = response.json() if response.text else {}
+                logger.info(f"SMS sent via MSG91 to {phone_number}. Response: {response_data}")
                 return {
                     'success': True,
                     'provider': 'msg91',
                     'phone': phone_number,
-                    'message_id': response.json().get('message_id', '') if response.text else ''
+                    'message_id': response_data.get('message_id', '') or response_data.get('request_id', ''),
+                    'response': response_data
                 }
             else:
                 logger.error(f"MSG91 error {response.status_code}: {response.text}")
                 return {
                     'success': False,
                     'provider': 'msg91',
-                    'error': f'HTTP {response.status_code}',
+                    'error': f'HTTP {response.status_code}: {response.text}',
                     'phone': phone_number
                 }
                 
