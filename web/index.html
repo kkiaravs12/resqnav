@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ResQNav — Smart Emergency & Navigation App. Find nearby hospitals, police, fire stations, pharmacies and get directions instantly.">
+  <meta name="keywords" content="emergency, navigation, hospital, police, fire station, pharmacy, ambulance, GPS, directions, ResQNav">
+  <meta name="author" content="ResQNav">
+  <meta name="theme-color" content="#0F766E">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ResQNav — Smart Emergency Navigator">
+  <meta property="og:description" content="Locate emergency services and navigate to any destination in seconds.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/Icon-512.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ResQNav — Smart Emergency Navigator">
+  <meta name="twitter:description" content="Locate emergency services and navigate to any destination in seconds.">
+
+  <!-- iOS -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ResQNav">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+
+  <title>ResQNav — Smart Emergency Navigator</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Google Maps (Places + Geometry) -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABivcmxy6dCZxEaAwxO2EaHtUYkD0j1P0&libraries=places,geometry">
+  </script>
+  <script src="place_search.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #F3F7F6;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* ── Splash Screen ── */
+    #resqnav-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #0B3B4A 0%, #0F766E 55%, #14B8A6 100%);
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    #resqnav-splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-logo {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.16);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+      animation: splash-pulse 1.8s ease-in-out infinite;
+    }
+
+    .splash-logo svg {
+      width: 38px;
+      height: 38px;
+      fill: white;
+    }
+
+    .splash-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .splash-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 36px;
+    }
+
+    .splash-bar-track {
+      width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .splash-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ffffff;
+      border-radius: 99px;
+      animation: splash-bar 2.2s ease-in-out forwards;
+    }
+
+    @keyframes splash-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    @keyframes splash-bar {
+      0%   { width: 0%; }
+      60%  { width: 75%; }
+      90%  { width: 92%; }
+      100% { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="resqnav-splash">
+    <div class="splash-logo">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+      </svg>
+    </div>
+    <div class="splash-title">ResQNav</div>
+    <div class="splash-subtitle">Smart Emergency Navigator</div>
+    <div class="splash-bar-track">
+      <div class="splash-bar-fill"></div>
+    </div>
+  </div>
+
+  <script>
+    // Hide splash once Flutter has painted
+    window.addEventListener('flutter-first-frame', function () {
+      const splash = document.getElementById('resqnav-splash');
+      if (splash) {
+        splash.classList.add('hidden');
+        setTimeout(function () {
+          splash.remove();
+        }, 500);
+      }
+    });
+
+    // Fallback: hide after 5 s in case the event never fires
+    setTimeout(function () {
+      const splash = document.getElementById('resqnav-splash');
+      if (splash) {
+        splash.classList.add('hidden');
+        setTimeout(function () { splash.remove(); }, 500);
+      }
+    }, 5000);
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

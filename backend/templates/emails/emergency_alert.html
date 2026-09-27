@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Alert - ResQNav</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #d32f2f; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0; font-size: 28px; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+        .alert-box { background: #ffebee; border-left: 5px solid #d32f2f; padding: 20px; margin: 20px 0; }
+        .alert-box h2 { color: #d32f2f; margin-top: 0; }
+        .alert-details { background: white; padding: 20px; border-radius: 4px; margin: 20px 0; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-weight: bold; color: #666; }
+        .detail-value { color: #333; }
+        .button { display: inline-block; padding: 12px 30px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px; margin: 20px 0; font-weight: bold; }
+        .footer { font-size: 12px; color: #777; text-align: center; padding: 20px; }
+        .urgent { color: #d32f2f; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 EMERGENCY ALERT</h1>
+        </div>
+        
+        <div class="content">
+            <div class="alert-box">
+                <h2>⚠️ Emergency Alert Notification</h2>
+                <p><span class="urgent">{{ user_name }} has triggered an emergency alert!</span></p>
+            </div>
+            
+            <p>Hi {{ contact_name }},</p>
+            
+            <p>You are receiving this message because you are an emergency contact for <strong>{{ user_name }}</strong>. An emergency alert has been activated.</p>
+            
+            <div class="alert-details">
+                <div class="detail-row">
+                    <span class="detail-label">📍 Location:</span>
+                    <span class="detail-value">{{ location }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">🔴 Alert Type:</span>
+                    <span class="detail-value">{{ emergency_type }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">👤 Name:</span>
+                    <span class="detail-value">{{ user_name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">📞 Contact:</span>
+                    <span class="detail-value">{{ user_phone }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">⏰ Time:</span>
+                    <span class="detail-value">Just now</span>
+                </div>
+            </div>
+            
+            <p style="text-align: center;">
+                <a href="{{ frontend_url }}/alerts" class="button">View Alert Details</a>
+            </p>
+            
+            <div style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                <strong>What should you do?</strong>
+                <ul>
+                    <li>📱 Call the person to confirm their status</li>
+                    <li>🏥 If there's a medical emergency, call emergency services (911/999)</li>
+                    <li>📍 Use the location provided to locate them if needed</li>
+                    <li>📲 Keep monitoring the ResQNav app for updates</li>
+                </ul>
+            </div>
+            
+            <hr style="border: none; border-top: 2px solid #d32f2f; margin: 30px 0;">
+            
+            <p><strong>Important:</strong> This is an automated alert from ResQNav. Please verify the emergency by contacting the person directly.</p>
+            
+            <div class="footer">
+                <p>Stay safe,<br><strong>ResQNav Emergency Response Team</strong></p>
+                <p>© 2026 ResQNav. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

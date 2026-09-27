@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-resqnav}
+      POSTGRES_USER: ${POSTGRES_USER:-resqnav}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-securepass123}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-resqnav}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispass123}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Django Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DEBUG: ${DEBUG:-False}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-resqnav}:${POSTGRES_PASSWORD:-securepass123}@db:5432/${POSTGRES_DB:-resqnav}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redispass123}@redis:6379/0
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-redispass123}@redis:6379/1
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      EMAIL_BACKEND: ${EMAIL_BACKEND:-django.core.mail.backends.console.EmailBackend}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD:-}
+      MSG91_AUTH_KEY: ${MSG91_AUTH_KEY:-}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/schema/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:8000 --workers 4 --timeout 120 config.wsgi:application"
+
+  # Celery Worker (for async tasks)
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DEBUG: ${DEBUG:-False}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-resqnav}:${POSTGRES_PASSWORD:-securepass123}@db:5432/${POSTGRES_DB:-resqnav}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redispass123}@redis:6379/0
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-redispass123}@redis:6379/1
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    command: celery -A config worker -l info
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_logs:
+
+networks:
+  default:
+    name: resqnav-network

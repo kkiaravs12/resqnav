@@ -1,0 +1,41 @@
+{
+  "name": "ResQNav — Smart Emergency Navigator",
+  "short_name": "ResQNav",
+  "description": "Find nearby emergency services and get directions instantly.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "orientation": "any",
+  "categories": ["navigation", "utilities", "health"],
+  "icons": [
+    {
+      "src": "icons/Icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergency Services",
+      "short_name": "Emergency",
+      "description": "Find nearby emergency help",
+      "url": "/?page=emergency",
+      "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Map",
+      "short_name": "Explore",
+      "description": "Search destinations on the map",
+      "url": "/?page=explore",
+      "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
