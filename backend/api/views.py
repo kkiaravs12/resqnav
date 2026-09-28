@@ -23,6 +23,7 @@ from .models import (
     SearchHistory
 )
 from .models_auth import UserProfile, EmailVerificationToken
+from .sms_service import EmergencySMSAlert
 from .serializers import (
     EmergencyAlertSerializer,
     EmergencyContactSerializer,
