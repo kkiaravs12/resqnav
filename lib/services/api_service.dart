@@ -1097,28 +1097,6 @@ class ApiService {
 
     return Map<String, dynamic>.from(data as Map);
   }
-}
-
-
-// =========================================================
-// API EXCEPTION
-// =========================================================
-
-class ApiException implements Exception {
-  final String message;
-  final int statusCode;
-
-  const ApiException(
-    this.message,
-    this.statusCode,
-  );
-
-  @override
-  String toString() {
-    return 'ApiException($statusCode): $message';
-  }
-}
-
 
   // =========================================================
   // COMBINED EMERGENCY SERVICES (Database + OpenStreetMap)
@@ -1207,3 +1185,24 @@ class ApiException implements Exception {
         cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km
   }
+}
+
+
+// =========================================================
+// API EXCEPTION
+// =========================================================
+
+class ApiException implements Exception {
+  final String message;
+  final int statusCode;
+
+  const ApiException(
+    this.message,
+    this.statusCode,
+  );
+
+  @override
+  String toString() {
+    return 'ApiException($statusCode): $message';
+  }
+}
