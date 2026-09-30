@@ -124,20 +124,6 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: mobile ? 24 : 32),
                   _buildQuickAccess(context, mobile),
                   SizedBox(height: mobile ? 24 : 32),
-                  _buildServiceGrid(
-                    context,
-                    mobile,
-                    'Home services',
-                    AppConstants.homeServicesOnly,
-                  ),
-                  SizedBox(height: mobile ? 24 : 32),
-                  _buildServiceGrid(
-                    context,
-                    mobile,
-                    'On-the-go help',
-                    AppConstants.professionalServicesOnly,
-                  ),
-                  SizedBox(height: mobile ? 24 : 32),
                   _buildRecentSection(context, mobile),
                 ],
               ),
@@ -634,45 +620,6 @@ class _HomePageState extends State<HomePage> {
           ),
           itemCount: items.length,
           itemBuilder: (_, i) => _quickCard(items[i]),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildServiceGrid(
-    BuildContext context,
-    bool mobile,
-    String title,
-    List<EmergencyCategory> categories,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title,
-            style: TextStyle(
-                fontSize: mobile ? 18 : 19,
-                fontWeight: FontWeight.w800,
-                color: AppTheme.textPrimary)),
-        const SizedBox(height: 13),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: mobile ? 2 : 3,
-            crossAxisSpacing: mobile ? 10 : 14,
-            mainAxisSpacing: mobile ? 10 : 14,
-            childAspectRatio: mobile ? 1.6 : 2.4,
-          ),
-          itemCount: categories.length,
-          itemBuilder: (_, i) {
-            final cat = categories[i];
-            return _quickCard(_QuickItem(
-              cat.icon,
-              cat.label,
-              cat.description,
-              () => _openEmergency(context, category: cat.id),
-            ));
-          },
         ),
       ],
     );

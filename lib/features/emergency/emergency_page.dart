@@ -1051,10 +1051,8 @@ class _EmergencyPageState extends State<EmergencyPage> {
   // =========================================================
 
   Widget _buildCategorySection() {
-    // Get all categories organized by type
+    // Get emergency categories only
     final emergencyCategories = AppConstants.emergencyOnly;
-    final homeServiceCategories = AppConstants.homeServicesOnly;  
-    final professionalCategories = AppConstants.professionalServicesOnly;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1064,24 +1062,6 @@ class _EmergencyPageState extends State<EmergencyPage> {
           title: 'Emergency Services',
           categories: emergencyCategories,
           titleColor: AppTheme.danger,
-        ),
-        
-        const SizedBox(height: 8),
-        
-        // Home Services Section  
-        _buildCategoryGroup(
-          title: 'Home Services',
-          categories: homeServiceCategories,
-          titleColor: AppTheme.primary,
-        ),
-        
-        const SizedBox(height: 8),
-        
-        // Professional Services Section
-        _buildCategoryGroup(
-          title: 'Professional Services', 
-          categories: professionalCategories,
-          titleColor: AppTheme.textSecondary,
         ),
       ],
     );
