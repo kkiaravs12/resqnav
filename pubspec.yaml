@@ -49,6 +49,9 @@ dependencies:
   # URL launcher for opening maps
   url_launcher: ^6.3.2
 
+  # Share functionality for SOS alerts
+  share_plus: ^10.1.4
+
   # Web interop (for Places autocomplete in explore page)
   web: ^1.1.0
 

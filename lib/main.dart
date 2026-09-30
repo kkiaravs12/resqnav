@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:geocoding/geocoding.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
@@ -455,69 +457,118 @@ class _MainShellState extends State<MainShell> {
     try {
       // Get current location
       Position? position;
-      String? address;
+      String locationText = '';
       
       try {
         final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        if (serviceEnabled) {
-          LocationPermission permission = await Geolocator.checkPermission();
-          if (permission == LocationPermission.denied) {
-            permission = await Geolocator.requestPermission();
-          }
-          
-          if (permission != LocationPermission.denied && 
-              permission != LocationPermission.deniedForever) {
-            position = await Geolocator.getCurrentPosition(
-              locationSettings: const LocationSettings(
-                accuracy: LocationAccuracy.high,
-                timeLimit: Duration(seconds: 10),
-              ),
-            );
-          }
+        if (!serviceEnabled) {
+          throw Exception('Location services are disabled');
         }
-      } catch (e) {
-        // Location failed, continue without it
-      }
 
-      // Trigger emergency alert
-      final result = await ApiService.triggerEmergencyAlert(
-        alertType: 'sos',
-        message: 'Emergency SOS alert triggered from ResQNav app',
-        latitude: position?.latitude,
-        longitude: position?.longitude,
-        address: address,
-      );
+        LocationPermission permission = await Geolocator.checkPermission();
+        if (permission == LocationPermission.denied) {
+          permission = await Geolocator.requestPermission();
+        }
+        
+        if (permission == LocationPermission.denied || 
+            permission == LocationPermission.deniedForever) {
+          throw Exception('Location permissions denied');
+        }
 
-      // Check context is still mounted after async operation
-      if (!context.mounted) return;
-
-      // Show success and navigate to emergency page
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            result['message'] ?? 'Emergency alert sent successfully!',
+        // Get current position
+        position = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 10),
           ),
-          backgroundColor: AppTheme.success,
-          duration: const Duration(seconds: 4),
-        ),
-      );
-      
-      // Navigate to emergency page
-      setState(() => _selectedIndex = 2);
-    } on ApiException catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to send emergency alert: ${e.message}'),
-          backgroundColor: AppTheme.danger,
-          duration: const Duration(seconds: 4),
-        ),
-      );
+        );
+
+        // Try to get address from coordinates
+        try {
+          final placemarks = await placemarkFromCoordinates(
+            position.latitude,
+            position.longitude,
+          );
+          if (placemarks.isNotEmpty) {
+            final place = placemarks.first;
+            final addressParts = [
+              place.street,
+              place.subLocality,
+              place.locality,
+              place.administrativeArea,
+              place.postalCode,
+            ].where((e) => e != null && e.isNotEmpty).join(', ');
+            
+            locationText = addressParts.isNotEmpty ? addressParts : '';
+          }
+        } catch (e) {
+          // Geocoding failed, use coordinates only
+        }
+
+        // Prepare location message
+        final lat = position.latitude.toStringAsFixed(6);
+        final lon = position.longitude.toStringAsFixed(6);
+        final googleMapsUrl = 'https://www.google.com/maps?q=$lat,$lon';
+        
+        final message = '''
+🆘 EMERGENCY SOS ALERT 🆘
+
+I need immediate help! This is an emergency alert from ResQNav app.
+
+📍 My Current Location:
+${locationText.isNotEmpty ? '$locationText\n' : ''}Coordinates: $lat, $lon
+
+🗺️ View on Google Maps:
+$googleMapsUrl
+
+⚠️ Please respond immediately or call emergency services!
+
+Time: ${DateTime.now().toString().substring(0, 19)}
+        '''.trim();
+
+        // Share location to any contact
+        final result = await Share.share(
+          message,
+          subject: '🆘 EMERGENCY SOS ALERT',
+        );
+
+        // Check context is still mounted after async operation
+        if (!context.mounted) return;
+
+        if (result.status == ShareResultStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Emergency location shared successfully!'),
+              backgroundColor: AppTheme.success,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Location share was cancelled'),
+              backgroundColor: AppTheme.warning,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+        
+      } catch (e) {
+        // Location error
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Unable to get location: ${e.toString()}'),
+            backgroundColor: AppTheme.danger,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send emergency alert: ${e.toString()}'),
+          content: Text('Failed to share emergency location: ${e.toString()}'),
           backgroundColor: AppTheme.danger,
           duration: const Duration(seconds: 4),
         ),
@@ -655,7 +706,7 @@ class _SOSConfirmationDialogState extends State<_SOSConfirmationDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'This will send an emergency alert to all your emergency contacts with your current location.',
+            'This will share your current location with emergency contacts via any app (WhatsApp, SMS, Email, etc.).',
             style: TextStyle(
               fontSize: 14,
               color: AppTheme.textSecondary,
