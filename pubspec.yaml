@@ -41,9 +41,13 @@ dependencies:
 
   # Location
   geolocator: ^14.0.2
+  geocoding: ^3.0.0
 
   # HTTP/API support
   http: ^1.5.0
+
+  # URL launcher for opening maps
+  url_launcher: ^6.3.2
 
   # Web interop (for Places autocomplete in explore page)
   web: ^1.1.0
@@ -51,7 +55,6 @@ dependencies:
   # Icons
   lucide_icons: ^0.257.0
   shared_preferences: ^2.5.5
-  url_launcher: ^6.3.2
   google_fonts: ^6.3.2
 
 dev_dependencies:
