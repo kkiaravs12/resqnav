@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'location_service.dart';
+
 class ApiService {
   // =========================================================
   // BASE URL
@@ -1136,8 +1138,7 @@ class ApiException implements Exception {
       List<Map<String, dynamic>> nearbyServices = [];
       if (category != null && userLat != null && userLon != null) {
         try {
-          final locationService = await import('location_service.dart');
-          final nearby = await locationService.LocationService.getNearbyServices(
+          final nearby = await LocationService.getNearbyServices(
             category: category,
             radiusMeters: 5000,
           );
