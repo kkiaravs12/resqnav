@@ -1,23 +1,18 @@
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../services/api_service.dart';
 import '../navigation/navigation_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-@JS('computeResQNavRoute')
-external void computeResQNavRoute(
-  JSNumber originLat,
-  JSNumber originLng,
-  JSNumber destinationLat,
-  JSNumber destinationLng,
-  JSString travelMode,
-  JSFunction callback,
-);
+// Conditional import
+import 'history_page_mobile.dart'
+    if (dart.library.js_interop) 'history_page_web.dart';
 
 // ============================================================
 // HISTORY PAGE
@@ -156,45 +151,58 @@ class _HistoryPageState extends State<HistoryPage> {
         return;
       }
 
-      computeResQNavRoute(
-        origin.latitude.toJS,
-        origin.longitude.toJS,
-        item.latitude.toJS,
-        item.longitude.toJS,
-        'car'.toJS,
-        ((String pathJson, double dist, double dur) {
-          if (!mounted) return;
-          try {
-            final pts = (jsonDecode(pathJson) as List)
-                .map((p) => LatLng((p['lat'] as num).toDouble(),
-                    (p['lng'] as num).toDouble()))
-                .toList();
+      if (kIsWeb) {
+        // Web: Use JS routing
+        computeResQNavRoute(
+          origin,
+          item.latitude,
+          item.longitude,
+          'car',
+          (String pathJson, double dist, double dur) {
+            if (!mounted) return;
+            try {
+              final pts = (jsonDecode(pathJson) as List)
+                  .map((p) => LatLng((p['lat'] as num).toDouble(),
+                      (p['lng'] as num).toDouble()))
+                  .toList();
 
-            if (pts.isEmpty) throw Exception('No route.');
+              if (pts.isEmpty) throw Exception('No route.');
 
-            setState(() => _navigating = false);
+              setState(() => _navigating = false);
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NavigationPage(
-                  destinationName: item.title,
-                  destinationAddress: item.subtitle,
-                  currentLocation: origin,
-                  destinationLocation: LatLng(item.latitude, item.longitude),
-                  routePoints: pts,
-                  distanceMeters: dist,
-                  durationMilliseconds: dur,
-                  travelMode: 'car',
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => NavigationPage(
+                    destinationName: item.title,
+                    destinationAddress: item.subtitle,
+                    currentLocation: origin,
+                    destinationLocation: LatLng(item.latitude, item.longitude),
+                    routePoints: pts,
+                    distanceMeters: dist,
+                    durationMilliseconds: dur,
+                    travelMode: 'car',
+                  ),
                 ),
-              ),
-            );
-          } catch (_) {
-            if (mounted) setState(() => _navigating = false);
-            _snack('Unable to build directions.');
-          }
-        }).toJS,
-      );
+              );
+            } catch (_) {
+              if (mounted) setState(() => _navigating = false);
+              _snack('Unable to build directions.');
+            }
+          },
+        );
+      } else {
+        // Mobile: Open Google Maps
+        final url = Uri.parse(
+          'https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}&travelmode=driving',
+        );
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url, mode: LaunchMode.externalApplication);
+        } else {
+          _snack('Could not launch Google Maps');
+        }
+        setState(() => _navigating = false);
+      }
     } catch (_) {
       if (mounted) setState(() => _navigating = false);
       _snack('Unable to open this destination.');

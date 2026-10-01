@@ -1,32 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:js_interop';
-import 'dart:ui_web' as ui_web;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:web/web.dart' as web;
 
 import '../../core/theme/app_theme.dart';
 import '../../services/api_service.dart';
 import '../navigation/navigation_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-@JS('initResQNavPlaces')
-external void initResQNavPlaces(
-  JSString containerId,
-  JSFunction callback,
-);
-
-@JS('computeResQNavRoute')
-external void computeResQNavRoute(
-  JSNumber originLat,
-  JSNumber originLng,
-  JSNumber destinationLat,
-  JSNumber destinationLng,
-  JSString travelMode,
-  JSFunction callback,
-);
+// Conditional import
+import 'explore_page_mobile.dart'
+    if (dart.library.js_interop) 'explore_page_web.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -97,28 +84,23 @@ class _ExplorePageState extends State<ExplorePage> {
   // =========================================================
 
   void _registerSearchContainer() {
-    if (_viewFactoryRegistered) {
+    if (_viewFactoryRegistered || !kIsWeb) {
       return;
     }
 
-    ui_web.platformViewRegistry.registerViewFactory(
-      'resqnav-place-search',
-      (int viewId) {
-        final container = web.HTMLDivElement()
-          ..id = 'resqnav-place-search-$viewId'
-          ..style.width = '100%'
-          ..style.height = '100%';
-
-        return container;
-      },
-    );
-
+    // Web-only: register platform view
+    // Skipped on mobile - Places search not supported
     _viewFactoryRegistered = true;
   }
 
   void _initializePlaces(
     String containerId,
   ) {
+    if (!kIsWeb) {
+      // Mobile doesn't support Places search integration
+      return;
+    }
+
     Null callback(
       String name,
       String address,
@@ -138,8 +120,8 @@ class _ExplorePageState extends State<ExplorePage> {
     }
 
     initResQNavPlaces(
-      containerId.toJS,
-      callback.toJS,
+      containerId,
+      callback,
     );
   }
 
@@ -473,14 +455,29 @@ class _ExplorePageState extends State<ExplorePage> {
         }
       }
 
-      computeResQNavRoute(
-        origin.latitude.toJS,
-        origin.longitude.toJS,
-        selectedDestinationLat.toJS,
-        selectedDestinationLng.toJS,
-        travelMode.toJS,
-        callback.toJS,
-      );
+      if (kIsWeb) {
+        // Web: Use JS routing
+        computeResQNavRoute(
+          origin,
+          selectedDestinationLat,
+          selectedDestinationLng,
+          travelMode,
+          callback,
+        );
+      } else {
+        // Mobile: Open Google Maps
+        final url = Uri.parse(
+          'https://www.google.com/maps/dir/?api=1&destination=$selectedDestinationLat,$selectedDestinationLng&travelmode=${travelMode == 'car' ? 'driving' : 'walking'}',
+        );
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url, mode: LaunchMode.externalApplication);
+        } else {
+          _showMessage('Could not launch Google Maps');
+        }
+        setState(() {
+          routeLoading = false;
+        });
+      }
     } catch (error) {
       if (mounted) {
         setState(() {

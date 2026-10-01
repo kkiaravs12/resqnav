@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:js_interop';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -12,15 +12,9 @@ import '../../services/api_service.dart';
 import '../navigation/navigation_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-@JS('computeResQNavRoute')
-external void computeResQNavRoute(
-  JSNumber originLat,
-  JSNumber originLng,
-  JSNumber destinationLat,
-  JSNumber destinationLng,
-  JSString travelMode,
-  JSFunction callback,
-);
+// Conditional import for web/mobile
+import 'emergency_page_mobile.dart'
+    if (dart.library.js_interop) 'emergency_page_web.dart';
 
 class EmergencyPage extends StatefulWidget {
   final String? initialCategory;
@@ -498,14 +492,40 @@ class _EmergencyPageState extends State<EmergencyPage> {
         }
       }
 
-      computeResQNavRoute(
-        origin.latitude.toJS,
-        origin.longitude.toJS,
-        service.latitude.toJS,
-        service.longitude.toJS,
-        travelMode.toJS,
-        callback.toJS,
-      );
+      if (kIsWeb) {
+        // Web: Use JS interop for routing
+        computeResQNavRoute(
+          origin,
+          service.latitude,
+          service.longitude,
+          travelMode,
+          callback,
+        );
+      } else {
+        // Mobile: Open Google Maps directly for navigation
+        final lat = service.latitude;
+        final lon = service.longitude;
+        final url = Uri.parse(
+          'https://www.google.com/maps/dir/?api=1&destination=$lat,$lon&travelmode=${travelMode == 'car' ? 'driving' : 'walking'}',
+        );
+        
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url, mode: LaunchMode.externalApplication);
+          
+          // Save to history
+          _saveEmergencyHistory(
+            service: service,
+            distanceMeters: 0,
+            durationMilliseconds: 0,
+          );
+        } else {
+          _showMessage('Could not launch Google Maps');
+        }
+        
+        setState(() {
+          routeLoading = false;
+        });
+      }
     } catch (error) {
       if (mounted) {
         setState(() {
