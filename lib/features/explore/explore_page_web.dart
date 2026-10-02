@@ -23,7 +23,9 @@ void initResQNavPlaces(
 ) {
   _initResQNavPlacesJS(
     containerId.toJS,
-    callback.toJS,
+    ((JSString name, JSString address, JSNumber lat, JSNumber lng) {
+      callback(name.toDart, address.toDart, lat.toDartDouble, lng.toDartDouble);
+    }).toJS,
   );
 }
 
@@ -40,6 +42,8 @@ void computeResQNavRoute(
     destLat.toJS,
     destLng.toJS,
     travelMode.toJS,
-    callback.toJS,
+    ((JSString pathJson, JSNumber distance, JSNumber duration) {
+      callback(pathJson.toDart, distance.toDartDouble, duration.toDartDouble);
+    }).toJS,
   );
 }

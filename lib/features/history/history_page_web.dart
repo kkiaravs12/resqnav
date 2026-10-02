@@ -24,6 +24,8 @@ void computeResQNavRoute(
     destLat.toJS,
     destLng.toJS,
     travelMode.toJS,
-    callback.toJS,
+    ((JSString pathJson, JSNumber distance, JSNumber duration) {
+      callback(pathJson.toDart, distance.toDartDouble, duration.toDartDouble);
+    }).toJS,
   );
 }
