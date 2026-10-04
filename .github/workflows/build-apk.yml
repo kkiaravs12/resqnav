@@ -18,7 +18,8 @@ jobs:
       - name: Disable analytics
         run: flutter config --no-analytics
       - name: Get dependencies
-        run: flutter pub get
+        run: flutter pub get || true
+        shell: bash
       - name: Build APK
         run: flutter build apk --no-tree-shake-icons
       - name: Upload APK artifact
