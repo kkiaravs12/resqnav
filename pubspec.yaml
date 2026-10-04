@@ -20,7 +20,7 @@ dependencies:
   # App routing
   go_router: ^10.0.0
 
-  # Location
+  # Location (SOS alert)
   geolocator: ^9.0.0
   geocoding: ^2.1.0
 
@@ -31,12 +31,12 @@ dependencies:
   url_launcher: ^6.1.0
 
   # Share functionality for SOS alerts
-  share_plus: ^7.0.0
+  share_plus: ^6.0.0
 
   # Icons
   lucide_icons: ^0.88.0
-  shared_preferences: ^2.2.0
-  google_fonts: ^4.0.0
+  shared_preferences: ^2.0.0
+  google_fonts: ^3.0.0
 
 dev_dependencies:
   flutter_test:
