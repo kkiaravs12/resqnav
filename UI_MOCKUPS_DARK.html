@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQNav - Dark Unique Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0a0a;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header-section h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 50%, #ff0844 100%);
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .header-section p {
+            color: #888;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .phone-frame {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border-radius: 45px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .phone-frame:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(255,8,68,0.3), inset 0 0 0 1px rgba(255,8,68,0.2);
+        }
+        .screen {
+            border-radius: 38px;
+            overflow: hidden;
+            height: 780px;
+            position: relative;
+            background: #121212;
+            border: 2px solid #1f1f1f;
+        }
+        .screen-title {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* Animated Background Elements */
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: float 20s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #ff0844;
+            top: -100px;
+            left: -100px;
+        }
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: #ff6b9d;
+            bottom: -80px;
+            right: -80px;
+            animation-delay: -10s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background: transparent;
+            padding: 15px 25px 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* HOME PAGE - Unique Hexagon Cards */
+        .home-screen {
+            background: #121212;
+            position: relative;
+        }
+        .home-content {
+            padding: 20px 25px;
+            position: relative;
+            z-index: 2;
+        }
+        .greeting {
+            margin-bottom: 35px;
+        }
+        .greeting h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .greeting p {
+            color: #888;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* UNIQUE: Pulsing SOS Button with Ring Animation */
+        .sos-unique {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+        .sos-rings {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+        }
+        .ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid #ff0844;
+            border-radius: 50%;
+            opacity: 0;
+            animation: ring-pulse 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+        .ring:nth-child(2) { animation-delay: 0.5s; }
+        .ring:nth-child(3) { animation-delay: 1s; }
+        @keyframes ring-pulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .sos-button-hex {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(255,8,68,0.6), inset 0 0 20px rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sos-button-hex:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 60px rgba(255,8,68,0.8);
+        }
+        .sos-button-hex h3 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        .sos-button-hex p {
+            font-size: 10px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* UNIQUE: Neumorphic Cards */
+        .neuro-card {
+            background: linear-gradient(145deg, #1a1a1a, #141414);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 8px 8px 16px #0a0a0a, -8px -8px 16px #1f1f1f;
+            margin-bottom: 20px;
+            border: 1px solid #222;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .stat-item {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border-radius: 18px;
+            padding: 18px 12px;
+            text-align: center;
+            box-shadow: 4px 4px 8px #0a0a0a, -4px -4px 8px #1a1a1a;
+            border: 1px solid #252525;
+            transition: all 0.3s;
+        }
+        .stat-item:hover {
+            background: linear-gradient(145deg, #252525, #1a1a1a);
+            transform: translateY(-3px);
+        }
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 8px rgba(255,8,68,0.5));
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* UNIQUE: Glowing Quick Access */
+        .quick-access-dark {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .quick-btn-dark {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #252525;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .quick-btn-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,8,68,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .quick-btn-dark:hover::before {
+            left: 100%;
+        }
+        .quick-btn-dark:hover {
+            border-color: #ff0844;
+            box-shadow: 0 0 20px rgba(255,8,68,0.3);
+            transform: translateY(-3px);
+        }
+        .quick-icon-dark {
+            font-size: 36px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255,8,68,0.4));
+        }
+        .quick-label-dark {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        /* EXPLORE PAGE - 3D Card Effect */
+        .explore-screen {
+            background: #121212;
+            position: relative;
+        }
+        .explore-content {
+            padding: 20px 25px;
+            position: relative;
+            z-index: 2;
+        }
+        .page-header-dark {
+            margin-bottom: 25px;
+        }
+        .page-header-dark h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .page-header-dark p {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* UNIQUE: Glowing Search Bar */
+        .search-dark {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border: 2px solid #252525;
+            border-radius: 20px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            box-shadow: inset 2px 2px 5px #0a0a0a, 0 0 15px rgba(255,8,68,0.1);
+            transition: all 0.3s;
+        }
+        .search-dark:focus-within {
+            border-color: #ff0844;
+            box-shadow: 0 0 25px rgba(255,8,68,0.4), inset 2px 2px 5px #0a0a0a;
+        }
+        .search-dark input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            flex: 1;
+            font-weight: 500;
+        }
+        .search-dark input::placeholder {
+            color: #555;
+        }
+
+        /* UNIQUE: 3D Tilting Service Cards */
+        .services-3d {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .service-3d {
+            aspect-ratio: 1;
+            border-radius: 24px;
+            padding: 25px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .service-3d::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .service-3d:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .service-3d:hover::before {
+            opacity: 1;
+        }
+        .service-icon-3d {
+            font-size: 56px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        .service-name-3d {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .service-badge {
+            display: inline-block;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .hospital-3d { background: linear-gradient(135deg, #ff0844 0%, #ff4d6d 100%); }
+        .ambulance-3d { background: linear-gradient(135deg, #0066ff 0%, #00a8ff 100%); }
+        .police-3d { background: linear-gradient(135deg, #00d4aa 0%, #00f5d4 100%); }
+        .fire-3d { background: linear-gradient(135deg, #ff6b00 0%, #ffa500 100%); }
+        .pharmacy-3d { background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%); }
+        .mechanic-3d { background: linear-gradient(135deg, #4a5568 0%, #718096 100%); }
+
+        /* EMERGENCY PAGE - Dramatic */
+        .emergency-screen {
+            background: #121212;
+            position: relative;
+            overflow: hidden;
+        }
+        .emergency-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #ff0844 0%, #121212 70%);
+            opacity: 0.15;
+            animation: pulse-bg 3s ease-in-out infinite;
+        }
+        @keyframes pulse-bg {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(1.05); }
+        }
+        .emergency-content {
+            padding: 20px 25px;
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-align: center;
+        }
+        .emergency-header {
+            margin: 40px 0 50px;
+        }
+        .emergency-header h1 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 30px rgba(255,8,68,0.8);
+        }
+        .emergency-header p {
+            color: #888;
+            font-size: 15px;
+        }
+        
+        /* UNIQUE: Neon SOS Button */
+        .sos-neon {
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 60px;
+            position: relative;
+        }
+        .neon-circle {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 
+                0 0 20px rgba(255,8,68,0.5),
+                0 0 40px rgba(255,8,68,0.4),
+                0 0 60px rgba(255,8,68,0.3),
+                inset 0 0 20px rgba(255,255,255,0.1);
+            animation: neon-glow 2s ease-in-out infinite;
+        }
+        @keyframes neon-glow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px rgba(255,8,68,0.5),
+                    0 0 40px rgba(255,8,68,0.4),
+                    0 0 60px rgba(255,8,68,0.3),
+                    inset 0 0 20px rgba(255,255,255,0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px rgba(255,8,68,0.8),
+                    0 0 60px rgba(255,8,68,0.6),
+                    0 0 90px rgba(255,8,68,0.4),
+                    inset 0 0 30px rgba(255,255,255,0.2);
+            }
+        }
+        .neon-circle:hover {
+            transform: scale(1.1);
+        }
+        .press-text {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: -45px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* UNIQUE: Floating Contact Cards */
+        .contacts-floating {
+            margin-top: 40px;
+        }
+        .contacts-floating h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .contact-float {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border: 1px solid #252525;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 12px #0a0a0a;
+        }
+        .contact-float:hover {
+            transform: translateX(8px);
+            border-color: #ff0844;
+            box-shadow: 0 0 20px rgba(255,8,68,0.3), 8px 8px 16px #0a0a0a;
+        }
+        .contact-icon-float {
+            font-size: 36px;
+            filter: drop-shadow(0 0 8px rgba(255,8,68,0.5));
+        }
+        .contact-text {
+            flex: 1;
+            text-align: left;
+        }
+        .contact-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .contact-dist {
+            font-size: 13px;
+            color: #888;
+        }
+        .call-btn {
+            font-size: 24px;
+        }
+
+        /* HISTORY PAGE - Glowing Timeline */
+        .history-screen {
+            background: #121212;
+            position: relative;
+        }
+        .history-content {
+            padding: 20px 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* UNIQUE: Neon Timeline */
+        .timeline-neon {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline-neon::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #ff0844, transparent);
+        }
+        .history-neon {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .history-dot {
+            position: absolute;
+            left: -26px;
+            top: 8px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff0844;
+            box-shadow: 0 0 15px rgba(255,8,68,0.8);
+            animation: dot-pulse 2s ease-in-out infinite;
+        }
+        @keyframes dot-pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255,8,68,0.8); }
+            50% { box-shadow: 0 0 25px rgba(255,8,68,1); }
+        }
+        .history-card-neon {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border: 1px solid #252525;
+            border-radius: 18px;
+            padding: 18px;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 12px #0a0a0a;
+        }
+        .history-card-neon:hover {
+            border-color: #ff0844;
+            box-shadow: 0 0 20px rgba(255,8,68,0.3);
+            transform: translateX(5px);
+        }
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .history-service-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+        .history-time-ago {
+            font-size: 12px;
+            color: #888;
+        }
+        .history-info {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* PROFILE PAGE - Cyber Style */
+        .profile-screen {
+            background: #121212;
+            position: relative;
+        }
+        
+        /* UNIQUE: Cyber Header */
+        .profile-cyber-header {
+            background: linear-gradient(180deg, #ff0844 0%, #121212 100%);
+            padding: 50px 25px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-cyber-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255,8,68,0.1) 2px,
+                rgba(255,8,68,0.1) 4px
+            );
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .avatar-cyber {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border: 3px solid #ff0844;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            box-shadow: 0 0 30px rgba(255,8,68,0.6), inset 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .profile-cyber-name {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-cyber-email {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-cyber-content {
+            padding: 25px;
+        }
+        
+        /* UNIQUE: Cyber Settings Cards */
+        .settings-cyber {
+            background: linear-gradient(145deg, #1f1f1f, #161616);
+            border: 1px solid #252525;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 4px 4px 12px #0a0a0a;
+        }
+        .settings-cyber-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ff0844;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 15px 20px 10px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .settings-cyber-item {
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1a1a1a;
+            transition: all 0.2s;
+        }
+        .settings-cyber-item:last-child {
+            border-bottom: none;
+        }
+        .settings-cyber-item:hover {
+            background: rgba(255,8,68,0.05);
+            padding-left: 25px;
+        }
+        .settings-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .settings-icon-cyber {
+            font-size: 22px;
+            filter: drop-shadow(0 0 8px rgba(255,8,68,0.4));
+        }
+        .settings-label-cyber {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .settings-value {
+            font-size: 14px;
+            color: #888;
+        }
+        .toggle-cyber {
+            width: 48px;
+            height: 26px;
+            background: #ff0844;
+            border-radius: 13px;
+            position: relative;
+            box-shadow: 0 0 10px rgba(255,8,68,0.5);
+        }
+        .toggle-cyber::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            right: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Bottom Navigation - Dark */
+        .bottom-nav-dark {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent, #0a0a0a);
+            padding: 15px 0 25px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #1f1f1f;
+        }
+        .nav-dark {
+            text-align: center;
+            color: #555;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .nav-dark.active {
+            color: #ff0844;
+        }
+        .nav-dark.active .nav-icon-dark {
+            filter: drop-shadow(0 0 8px rgba(255,8,68,0.8));
+            transform: scale(1.1);
+        }
+        .nav-icon-dark {
+            font-size: 24px;
+            margin-bottom: 4px;
+            transition: all 0.3s;
+        }
+
+        /* Features */
+        .features-dark {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border: 1px solid #252525;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 50px;
+            box-shadow: 8px 8px 24px #000;
+        }
+        .features-dark h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #ff0844, #ffb199);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .features-grid-dark {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-dark {
+            text-align: center;
+        }
+        .feature-icon-dark {
+            font-size: 52px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 0 12px rgba(255,8,68,0.5));
+        }
+        .feature-title-dark {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .feature-desc-dark {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>RESQNAV DARK</h1>
+            <p>UNIQUE • MODERN • DARK</p>
+        </div>
+        
+        <div class="mockup-grid">
+            <!-- HOME PAGE -->
+            <div class="phone-frame">
+                <div class="screen home-screen">
+                    <div class="animated-bg">
+                        <div class="glow-orb orb-1"></div>
+                        <div class="glow-orb orb-2"></div>
+                    </div>
+                    
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 100%</span>
+                    </div>
+                    
+                    <div class="home-content">
+                        <div class="greeting">
+                            <h2>Welcome Back</h2>
+                            <p>Emergency assistance at your fingertips</p>
+                        </div>
+
+                        <div class="sos-unique">
+                            <div class="sos-rings">
+                                <div class="ring"></div>
+                                <div class="ring"></div>
+                                <div class="ring"></div>
+                            </div>
+                            <div class="sos-button-hex">
+                                <h3>SOS</h3>
+                                <p>TAP</p>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">🏥</div>
+                                <div class="stat-label">HOSPITALS</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🚑</div>
+                                <div class="stat-label">AMBULANCE</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">👮</div>
+                                <div class="stat-label">POLICE</div>
+                            </div>
+                        </div>
+
+                        <div class="quick-access-dark">
+                            <div class="quick-btn-dark">
+                                <div class="quick-icon-dark">🔍</div>
+                                <div class="quick-label-dark">Explore</div>
+                            </div>
+                            <div class="quick-btn-dark">
+                                <div class="quick-icon-dark">📋</div>
+                                <div class="quick-label-dark">History</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav-dark">
+                        <div class="nav-dark active">
+                            <div class="nav-icon-dark">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">1. HOME - PULSING SOS RINGS</div>
+            </div>
+
+            <!-- EXPLORE PAGE -->
+            <div class="phone-frame">
+                <div class="screen explore-screen">
+                    <div class="animated-bg">
+                        <div class="glow-orb orb-1"></div>
+                        <div class="glow-orb orb-2"></div>
+                    </div>
+                    
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 100%</span>
+                    </div>
+                    
+                    <div class="explore-content">
+                        <div class="page-header-dark">
+                            <h2>Explore</h2>
+                            <p>Find emergency services nearby</p>
+                        </div>
+
+                        <div class="search-dark">
+                            <span style="font-size: 20px;">🔍</span>
+                            <input type="text" placeholder="Search location..." />
+                        </div>
+
+                        <div class="services-3d">
+                            <div class="service-3d hospital-3d">
+                                <div class="service-icon-3d">🏥</div>
+                                <div class="service-name-3d">Hospital</div>
+                                <div class="service-badge">8 NEARBY</div>
+                            </div>
+                            <div class="service-3d ambulance-3d">
+                                <div class="service-icon-3d">🚑</div>
+                                <div class="service-name-3d">Ambulance</div>
+                                <div class="service-badge">24/7</div>
+                            </div>
+                            <div class="service-3d police-3d">
+                                <div class="service-icon-3d">👮</div>
+                                <div class="service-name-3d">Police</div>
+                                <div class="service-badge">3 STATIONS</div>
+                            </div>
+                            <div class="service-3d fire-3d">
+                                <div class="service-icon-3d">🚒</div>
+                                <div class="service-name-3d">Fire</div>
+                                <div class="service-badge">2 NEARBY</div>
+                            </div>
+                            <div class="service-3d pharmacy-3d">
+                                <div class="service-icon-3d">💊</div>
+                                <div class="service-name-3d">Pharmacy</div>
+                                <div class="service-badge">12 OPEN</div>
+                            </div>
+                            <div class="service-3d mechanic-3d">
+                                <div class="service-icon-3d">🔧</div>
+                                <div class="service-name-3d">Mechanic</div>
+                                <div class="service-badge">5 NEARBY</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav-dark">
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-dark active">
+                            <div class="nav-icon-dark">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">2. EXPLORE - 3D HOVER CARDS</div>
+            </div>
+
+            <!-- EMERGENCY PAGE -->
+            <div class="phone-frame">
+                <div class="screen emergency-screen">
+                    <div class="emergency-bg"></div>
+                    
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 100%</span>
+                    </div>
+                    
+                    <div class="emergency-content">
+                        <div class="emergency-header">
+                            <h1>EMERGENCY</h1>
+                            <p>Immediate help</p>
+                        </div>
+
+                        <div class="sos-neon">
+                            <div class="neon-circle">SOS</div>
+                        </div>
+                        <div class="press-text">PRESS & HOLD</div>
+
+                        <div class="contacts-floating">
+                            <h3>Quick Contacts</h3>
+                            <div class="contact-float">
+                                <div class="contact-icon-float">🏥</div>
+                                <div class="contact-text">
+                                    <div class="contact-name">Hospital</div>
+                                    <div class="contact-dist">Apollo • 2.3 km</div>
+                                </div>
+                                <div class="call-btn">📞</div>
+                            </div>
+                            <div class="contact-float">
+                                <div class="contact-icon-float">🚑</div>
+                                <div class="contact-text">
+                                    <div class="contact-name">Ambulance</div>
+                                    <div class="contact-dist">24/7 Emergency</div>
+                                </div>
+                                <div class="call-btn">📞</div>
+                            </div>
+                            <div class="contact-float">
+                                <div class="contact-icon-float">👮</div>
+                                <div class="contact-text">
+                                    <div class="contact-name">Police</div>
+                                    <div class="contact-dist">Vikhroli • 1.8 km</div>
+                                </div>
+                                <div class="call-btn">📞</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav-dark">
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-dark active">
+                            <div class="nav-icon-dark">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">3. EMERGENCY - NEON GLOW</div>
+            </div>
+
+            <!-- HISTORY PAGE -->
+            <div class="phone-frame">
+                <div class="screen history-screen">
+                    <div class="animated-bg">
+                        <div class="glow-orb orb-1"></div>
+                        <div class="glow-orb orb-2"></div>
+                    </div>
+                    
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 100%</span>
+                    </div>
+                    
+                    <div class="history-content">
+                        <div class="page-header-dark">
+                            <h2>History</h2>
+                            <p>Your recent searches</p>
+                        </div>
+
+                        <div class="timeline-neon">
+                            <div class="history-neon">
+                                <div class="history-dot"></div>
+                                <div class="history-card-neon">
+                                    <div class="history-top">
+                                        <div class="history-service-name">
+                                            <span>🏥</span>
+                                            <span>Hospital</span>
+                                        </div>
+                                        <div class="history-time-ago">2h ago</div>
+                                    </div>
+                                    <div class="history-info">
+                                        Apollo Hospital, Vikhroli<br>
+                                        3.2 km • Open 24/7
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="history-neon">
+                                <div class="history-dot"></div>
+                                <div class="history-card-neon">
+                                    <div class="history-top">
+                                        <div class="history-service-name">
+                                            <span>🚑</span>
+                                            <span>Ambulance</span>
+                                        </div>
+                                        <div class="history-time-ago">1d ago</div>
+                                    </div>
+                                    <div class="history-info">
+                                        Emergency Service<br>
+                                        Response: 8 minutes
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="history-neon">
+                                <div class="history-dot"></div>
+                                <div class="history-card-neon">
+                                    <div class="history-top">
+                                        <div class="history-service-name">
+                                            <span>👮</span>
+                                            <span>Police</span>
+                                        </div>
+                                        <div class="history-time-ago">3d ago</div>
+                                    </div>
+                                    <div class="history-info">
+                                        Vikhroli East Station<br>
+                                        1.5 km • Open 24/7
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="history-neon">
+                                <div class="history-dot"></div>
+                                <div class="history-card-neon">
+                                    <div class="history-top">
+                                        <div class="history-service-name">
+                                            <span>💊</span>
+                                            <span>Pharmacy</span>
+                                        </div>
+                                        <div class="history-time-ago">1w ago</div>
+                                    </div>
+                                    <div class="history-info">
+                                        MedPlus Pharmacy<br>
+                                        Open until 10 PM
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav-dark">
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">4. HISTORY - NEON TIMELINE</div>
+            </div>
+
+            <!-- PROFILE PAGE -->
+            <div class="phone-frame">
+                <div class="screen profile-screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 100%</span>
+                    </div>
+                    
+                    <div class="profile-cyber-header">
+                        <div class="avatar-cyber">👤</div>
+                        <div class="profile-cyber-name">User Name</div>
+                        <div class="profile-cyber-email">user@example.com</div>
+                    </div>
+
+                    <div class="profile-cyber-content">
+                        <div class="settings-cyber">
+                            <div class="settings-cyber-title">ACCOUNT</div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">📧</div>
+                                    <div class="settings-label-cyber">Email</div>
+                                </div>
+                                <div class="settings-value">Edit →</div>
+                            </div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">📱</div>
+                                    <div class="settings-label-cyber">Phone</div>
+                                </div>
+                                <div class="settings-value">Edit →</div>
+                            </div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">🔒</div>
+                                    <div class="settings-label-cyber">Password</div>
+                                </div>
+                                <div class="settings-value">Change →</div>
+                            </div>
+                        </div>
+
+                        <div class="settings-cyber">
+                            <div class="settings-cyber-title">PREFERENCES</div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">🔔</div>
+                                    <div class="settings-label-cyber">Notifications</div>
+                                </div>
+                                <div class="toggle-cyber"></div>
+                            </div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">📍</div>
+                                    <div class="settings-label-cyber">Location</div>
+                                </div>
+                                <div class="toggle-cyber"></div>
+                            </div>
+                        </div>
+
+                        <div class="settings-cyber">
+                            <div class="settings-cyber-title">SUPPORT</div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">❓</div>
+                                    <div class="settings-label-cyber">Help</div>
+                                </div>
+                                <div class="settings-value">→</div>
+                            </div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">📄</div>
+                                    <div class="settings-label-cyber">Privacy</div>
+                                </div>
+                                <div class="settings-value">→</div>
+                            </div>
+                            <div class="settings-cyber-item">
+                                <div class="settings-left">
+                                    <div class="settings-icon-cyber">🚪</div>
+                                    <div class="settings-label-cyber">Logout</div>
+                                </div>
+                                <div class="settings-value" style="color: #ff0844;">→</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav-dark">
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-dark">
+                            <div class="nav-icon-dark">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-dark active">
+                            <div class="nav-icon-dark">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">5. PROFILE - CYBER SCAN</div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-dark">
+            <h2>🔥 UNIQUE DARK FEATURES</h2>
+            <div class="features-grid-dark">
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">💫</div>
+                    <div class="feature-title-dark">Pulsing SOS Rings</div>
+                    <div class="feature-desc-dark">Animated ripple effect that draws attention to emergency button</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">✨</div>
+                    <div class="feature-title-dark">Neon Glow Effects</div>
+                    <div class="feature-desc-dark">Glowing borders and shadows that pulse and breathe</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">🎮</div>
+                    <div class="feature-title-dark">3D Hover Cards</div>
+                    <div class="feature-desc-dark">Service cards that lift and tilt on hover with depth</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">🌊</div>
+                    <div class="feature-title-dark">Floating Orbs</div>
+                    <div class="feature-desc-dark">Animated gradient orbs in background for depth</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">⚡</div>
+                    <div class="feature-title-dark">Neon Timeline</div>
+                    <div class="feature-desc-dark">Glowing dots and gradient line for history timeline</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">🎯</div>
+                    <div class="feature-title-dark">Cyber Scan Header</div>
+                    <div class="feature-desc-dark">Moving scan lines on profile for futuristic feel</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">🔮</div>
+                    <div class="feature-title-dark">Neumorphic Cards</div>
+                    <div class="feature-desc-dark">Soft shadows creating 3D depth effect on dark background</div>
+                </div>
+                <div class="feature-dark">
+                    <div class="feature-icon-dark">🌟</div>
+                    <div class="feature-title-dark">Sweep Animations</div>
+                    <div class="feature-desc-dark">Light sweep effect on button hover for premium feel</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; padding: 50px; background: linear-gradient(145deg, #1a1a1a, #0f0f0f); border: 2px solid #ff0844; border-radius: 30px; color: white; box-shadow: 0 0 40px rgba(255,8,68,0.3);">
+            <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 20px; background: linear-gradient(135deg, #ff0844, #ffb199); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TRULY UNIQUE DARK UI</h2>
+            <div style="max-width: 700px; margin: 0 auto; text-align: left; font-size: 17px; line-height: 2.2; color: #ccc;">
+                ✨ Animated pulsing SOS rings (not seen anywhere)<br>
+                🔥 Neon glowing buttons with breathing effect<br>
+                🎮 3D hover cards that lift and tilt<br>
+                💫 Floating gradient orbs in background<br>
+                ⚡ Glowing neon timeline with pulsing dots<br>
+                🎯 Cyber scan lines on profile (Matrix style)<br>
+                🌊 Neumorphic depth on dark theme<br>
+                ✨ Light sweep animations on hover
+            </div>
+            <div style="margin-top: 30px; font-size: 18px; color: #ff0844; font-weight: 700; letter-spacing: 2px;">
+                NO OTHER APP HAS THIS COMBINATION 🔥
+            </div>
+        </div>
+    </div>
+</body>
+</html>

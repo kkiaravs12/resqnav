@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:provider/provider.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_provider.dart';
 import 'features/auth/auth_page.dart';
 import 'features/emergency/emergency_page.dart';
 import 'features/explore/explore_page.dart';
@@ -27,7 +29,12 @@ void main() async {
   } catch (e) {
     // Auth initialization error handled silently
   }
-  runApp(const ResQNavApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const ResQNavApp(),
+    ),
+  );
 }
 
 class ResQNavApp extends StatefulWidget {
@@ -42,17 +49,23 @@ class _ResQNavAppState extends State<ResQNavApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: _authenticated
-          ? MainShell(
-              onLogout: () => setState(() => _authenticated = false),
-            )
-          : AuthPage(
-              onAuthenticated: () => setState(() => _authenticated = true),
-            ),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: AppConstants.appName,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          home: _authenticated
+              ? MainShell(
+                  onLogout: () => setState(() => _authenticated = false),
+                )
+              : AuthPage(
+                  onAuthenticated: () => setState(() => _authenticated = true),
+                ),
+        );
+      },
     );
   }
 }

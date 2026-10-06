@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQNav - New UI Design Mockups</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .phone-frame {
+            background: white;
+            border-radius: 30px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        .phone-frame:hover {
+            transform: translateY(-10px);
+        }
+        .screen {
+            border-radius: 20px;
+            overflow: hidden;
+            height: 700px;
+            position: relative;
+        }
+        .screen-title {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Home Page Styles */
+        .home-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+        .welcome-text h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .welcome-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .quick-access-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .sos-button {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4);
+            margin-top: 20px;
+        }
+        .sos-button h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        /* Explore Page Styles */
+        .explore-screen {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+        }
+        .search-bar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .search-bar input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            color: #333;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .service-card {
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .service-card.hospital { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .service-card.ambulance { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .service-card.police { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .service-card.fire { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .service-card.pharmacy { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+        .service-card.mechanic { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; }
+
+        /* Emergency Page Styles */
+        .emergency-screen {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            padding: 20px;
+            color: white;
+        }
+        .emergency-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 40px;
+        }
+        .emergency-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: none;
+        }
+        .big-sos-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: white;
+            color: #ff416c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin: 40px auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 8px solid rgba(255, 255, 255, 0.3);
+        }
+        .emergency-services {
+            margin-top: 40px;
+        }
+        .emergency-service-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* History Page Styles */
+        .history-screen {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+        }
+        .history-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .timeline-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        .timeline-item.hospital { border-left-color: #f5576c; }
+        .timeline-item.ambulance { border-left-color: #00f2fe; }
+        .timeline-item.police { border-left-color: #38f9d7; }
+
+        /* Profile Page Styles */
+        .profile-screen {
+            background: #f5f5f5;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border: 3px solid white;
+        }
+        .profile-content {
+            padding: 20px;
+        }
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .settings-section h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .settings-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 ResQNav - New UI Design Mockups</h1>
+        
+        <div class="mockup-grid">
+            <!-- Home Page -->
+            <div class="phone-frame">
+                <div class="screen home-screen">
+                    <div class="header">
+                        <div class="welcome-text">
+                            <h2>Welcome Back! 👋</h2>
+                            <p>Stay safe, help is near</p>
+                        </div>
+                        <div class="icon">🔔</div>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h3 style="margin-bottom: 15px;">⚡ Quick Access</h3>
+                        <div class="quick-access-grid">
+                            <div class="quick-access-item">
+                                <div class="icon">🚨</div>
+                                <div class="label">Emergency</div>
+                            </div>
+                            <div class="quick-access-item">
+                                <div class="icon">🔍</div>
+                                <div class="label">Explore</div>
+                            </div>
+                            <div class="quick-access-item">
+                                <div class="icon">📋</div>
+                                <div class="label">History</div>
+                            </div>
+                            <div class="quick-access-item">
+                                <div class="icon">👤</div>
+                                <div class="label">Profile</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sos-button">
+                        <h3>🆘 Emergency SOS</h3>
+                        <p style="font-size: 12px; opacity: 0.9;">Tap to send alert</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3 style="margin-bottom: 10px;">📍 Nearby Services</h3>
+                        <p style="font-size: 13px; opacity: 0.9;">3 hospitals • 2 pharmacies within 5km</p>
+                    </div>
+                </div>
+                <div class="screen-title">1. Home Page</div>
+            </div>
+
+            <!-- Explore Page -->
+            <div class="phone-frame">
+                <div class="screen explore-screen">
+                    <h2 style="color: white; margin-bottom: 20px; padding-top: 20px;">🔍 Explore Services</h2>
+                    
+                    <div class="search-bar">
+                        <input type="text" placeholder="🔎 Search location or service..." />
+                    </div>
+
+                    <h3 style="color: white; margin-bottom: 15px;">Emergency Services</h3>
+                    <div class="service-grid">
+                        <div class="service-card hospital">
+                            <div class="icon">🏥</div>
+                            <div class="label" style="font-weight: 600;">Hospital</div>
+                        </div>
+                        <div class="service-card ambulance">
+                            <div class="icon">🚑</div>
+                            <div class="label" style="font-weight: 600;">Ambulance</div>
+                        </div>
+                        <div class="service-card police">
+                            <div class="icon">👮</div>
+                            <div class="label" style="font-weight: 600;">Police</div>
+                        </div>
+                        <div class="service-card fire">
+                            <div class="icon">🚒</div>
+                            <div class="label" style="font-weight: 600;">Fire Station</div>
+                        </div>
+                        <div class="service-card pharmacy">
+                            <div class="icon">💊</div>
+                            <div class="label" style="font-weight: 600;">Pharmacy</div>
+                        </div>
+                        <div class="service-card mechanic">
+                            <div class="icon">🔧</div>
+                            <div class="label" style="font-weight: 600;">Mechanic</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">2. Explore Page</div>
+            </div>
+
+            <!-- Emergency Page -->
+            <div class="phone-frame">
+                <div class="screen emergency-screen">
+                    <div class="emergency-header">
+                        <h1>🚨 Emergency</h1>
+                        <p style="font-size: 14px; opacity: 0.9;">Immediate help at your fingertips</p>
+                    </div>
+
+                    <div class="big-sos-button">
+                        SOS
+                    </div>
+
+                    <p style="text-align: center; opacity: 0.9; margin-bottom: 30px;">
+                        Press and hold to send emergency alert
+                    </p>
+
+                    <div class="emergency-services">
+                        <h3 style="margin-bottom: 15px;">Quick Contacts</h3>
+                        <div class="emergency-service-item">
+                            <span style="margin-right: 15px; font-size: 24px;">🏥</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600;">Hospital</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Nearest: 2.3 km</div>
+                            </div>
+                            <span>📞</span>
+                        </div>
+                        <div class="emergency-service-item">
+                            <span style="margin-right: 15px; font-size: 24px;">🚑</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600;">Ambulance</div>
+                                <div style="font-size: 12px; opacity: 0.8;">24/7 Available</div>
+                            </div>
+                            <span>📞</span>
+                        </div>
+                        <div class="emergency-service-item">
+                            <span style="margin-right: 15px; font-size: 24px;">👮</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600;">Police</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Nearest: 1.8 km</div>
+                            </div>
+                            <span>📞</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">3. Emergency Page</div>
+            </div>
+
+            <!-- History Page -->
+            <div class="phone-frame">
+                <div class="screen history-screen">
+                    <div class="history-header">
+                        <h2>📋 Search History</h2>
+                        <p style="font-size: 13px; opacity: 0.9;">Your recent emergency searches</p>
+                    </div>
+
+                    <div class="timeline-item hospital">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-weight: 600; color: #f5576c;">🏥 Hospital Search</span>
+                            <span style="font-size: 12px; color: #999;">2 hours ago</span>
+                        </div>
+                        <div style="font-size: 13px; color: #666;">
+                            <div>Apollo Hospital, Vikhroli</div>
+                            <div>Distance: 3.2 km</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item ambulance">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-weight: 600; color: #00f2fe;">🚑 Ambulance Search</span>
+                            <span style="font-size: 12px; color: #999;">1 day ago</span>
+                        </div>
+                        <div style="font-size: 13px; color: #666;">
+                            <div>Emergency Ambulance Service</div>
+                            <div>Response time: 8 mins</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item police">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-weight: 600; color: #38f9d7;">👮 Police Station</span>
+                            <span style="font-size: 12px; color: #999;">3 days ago</span>
+                        </div>
+                        <div style="font-size: 13px; color: #666;">
+                            <div>Vikhroli East Police Station</div>
+                            <div>Distance: 1.5 km</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px; color: #999;">
+                        <p style="font-size: 14px;">No more history</p>
+                    </div>
+                </div>
+                <div class="screen-title">4. History Page</div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="phone-frame">
+                <div class="screen profile-screen">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👤</div>
+                        <h2>User Name</h2>
+                        <p style="font-size: 14px; opacity: 0.9;">user@example.com</p>
+                    </div>
+
+                    <div class="profile-content">
+                        <div class="settings-section">
+                            <h3>Account</h3>
+                            <div class="settings-item">
+                                <span>📧 Email</span>
+                                <span style="color: #999;">→</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>📱 Phone Number</span>
+                                <span style="color: #999;">→</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>🔒 Password</span>
+                                <span style="color: #999;">→</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>Preferences</h3>
+                            <div class="settings-item">
+                                <span>🌙 Dark Mode</span>
+                                <span style="color: #667eea;">ON</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>🔔 Notifications</span>
+                                <span style="color: #667eea;">ON</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>📍 Location</span>
+                                <span style="color: #667eea;">ON</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>Support</h3>
+                            <div class="settings-item">
+                                <span>❓ Help Center</span>
+                                <span style="color: #999;">→</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>📄 Privacy Policy</span>
+                                <span style="color: #999;">→</span>
+                            </div>
+                            <div class="settings-item">
+                                <span>🚪 Logout</span>
+                                <span style="color: #ff416c;">→</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">5. Profile Page</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; color: white; margin-top: 40px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px;">
+            <h2 style="margin-bottom: 15px;">✨ Design Features</h2>
+            <ul style="list-style: none; text-align: left; max-width: 600px; margin: 0 auto;">
+                <li style="padding: 8px 0;">🎨 Dark gradient backgrounds (purple-blue, red-orange themes)</li>
+                <li style="padding: 8px 0;">✨ Glassmorphism effects with frosted glass cards</li>
+                <li style="padding: 8px 0;">🌈 Unique colors for each emergency service</li>
+                <li style="padding: 8px 0;">💫 Modern shadows and smooth hover animations</li>
+                <li style="padding: 8px 0;">📱 Clean, organized layouts with proper spacing</li>
+                <li style="padding: 8px 0;">🎯 Focus on usability and quick access to emergency features</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

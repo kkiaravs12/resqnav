@@ -1,7 +1,13 @@
 allprojects {
     repositories {
+        // Use HTTP mirror for google repository
+        maven {
+            url = uri("https://maven.google.com/")
+            isAllowInsecureProtocol = true
+        }
         google()
         mavenCentral()
+        maven { url = uri("https://jcenter.bintray.com/") }
     }
 }
 

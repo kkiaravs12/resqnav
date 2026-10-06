@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQNav - Modern Production UI (2026)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fa;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header-section h1 {
+            font-size: 3em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header-section p {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .phone-frame {
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .phone-frame:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .screen {
+            border-radius: 30px;
+            overflow: hidden;
+            height: 750px;
+            position: relative;
+            background: #fff;
+        }
+        .screen-title {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-size: 18px;
+        }
+
+        /* Modern Status Bar */
+        .status-bar {
+            background: #fff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Home Page - Clean & Minimal */
+        .home-screen {
+            background: #fff;
+        }
+        .home-content {
+            padding: 20px;
+        }
+        .greeting {
+            margin-bottom: 30px;
+        }
+        .greeting h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        .greeting p {
+            color: #8e8e93;
+            font-size: 16px;
+        }
+        .sos-hero {
+            background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(255, 59, 48, 0.3);
+            text-align: center;
+            color: white;
+        }
+        .sos-hero h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .sos-hero p {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .sos-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .quick-action-btn {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .quick-action-btn:hover {
+            background: #e9ecef;
+            transform: scale(1.05);
+        }
+        .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .quick-action-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .info-icon {
+            font-size: 32px;
+        }
+        .info-text h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .info-text p {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        /* Explore Page - Card Grid */
+        .explore-screen {
+            background: #fff;
+        }
+        .explore-content {
+            padding: 20px;
+        }
+        .page-header {
+            margin-bottom: 24px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            color: #8e8e93;
+            font-size: 15px;
+        }
+        .search-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            flex: 1;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+        .search-box input::placeholder {
+            color: #8e8e93;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .service-card-modern {
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .service-card-modern::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .service-card-modern:hover::before {
+            opacity: 1;
+        }
+        .service-icon-modern {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .service-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .service-count {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .hospital-card { background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%); }
+        .ambulance-card { background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%); }
+        .police-card { background: linear-gradient(135deg, #34C759 0%, #30D158 100%); }
+        .fire-card { background: linear-gradient(135deg, #FF9500 0%, #FFCC00 100%); }
+        .pharmacy-card { background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%); }
+        .mechanic-card { background: linear-gradient(135deg, #8E8E93 0%, #636366 100%); }
+
+        /* Emergency Page - Bold Red */
+        .emergency-screen {
+            background: linear-gradient(180deg, #FF3B30 0%, #FF6B6B 100%);
+        }
+        .emergency-content {
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .emergency-title {
+            margin: 40px 0 20px;
+        }
+        .emergency-title h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .emergency-title p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .sos-button-main {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: white;
+            margin: 60px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sos-button-main:hover {
+            transform: scale(1.05);
+        }
+        .sos-button-main::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        .sos-text {
+            font-size: 56px;
+            font-weight: 900;
+            color: #FF3B30;
+        }
+        .sos-subtext {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+        .emergency-contacts {
+            margin-top: 40px;
+        }
+        .emergency-contacts h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .contact-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .contact-icon {
+            font-size: 32px;
+        }
+        .contact-info {
+            flex: 1;
+            text-align: left;
+        }
+        .contact-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .contact-detail {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* History Page - Timeline */
+        .history-screen {
+            background: #f8f9fa;
+        }
+        .history-content {
+            padding: 20px;
+        }
+        .history-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 4px solid;
+            transition: all 0.2s;
+        }
+        .history-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transform: translateX(4px);
+        }
+        .history-item.hospital-history { border-left-color: #FF3B30; }
+        .history-item.ambulance-history { border-left-color: #007AFF; }
+        .history-item.police-history { border-left-color: #34C759; }
+        .history-item.pharmacy-history { border-left-color: #AF52DE; }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .history-service {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+        .history-time {
+            font-size: 12px;
+            color: #8e8e93;
+            font-weight: 600;
+        }
+        .history-details {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .empty-text {
+            color: #8e8e93;
+            font-size: 15px;
+        }
+
+        /* Profile Page - Modern Settings */
+        .profile-screen {
+            background: #f8f9fa;
+        }
+        .profile-banner {
+            background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%);
+            padding: 48px 20px 32px;
+            color: white;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 16px;
+        }
+        .profile-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .profile-email {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .profile-content {
+            padding: 20px;
+            margin-top: -20px;
+        }
+        .settings-card {
+            background: white;
+            border-radius: 16px;
+            padding: 4px 0;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .settings-card-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #8e8e93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 20px 8px;
+        }
+        .settings-option {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f8f9fa;
+            transition: background 0.2s;
+        }
+        .settings-option:first-child {
+            border-top: none;
+        }
+        .settings-option:hover {
+            background: #f8f9fa;
+        }
+        .option-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-icon {
+            font-size: 20px;
+        }
+        .option-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .option-value {
+            font-size: 14px;
+            color: #8e8e93;
+            font-weight: 500;
+        }
+        .option-toggle {
+            width: 51px;
+            height: 31px;
+            background: #34C759;
+            border-radius: 16px;
+            position: relative;
+        }
+        .option-toggle::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px 0 24px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #f0f0f0;
+        }
+        .nav-item {
+            text-align: center;
+            color: #8e8e93;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .nav-item.active {
+            color: #FF3B30;
+        }
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* Features Grid */
+        .features-section {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            margin-top: 40px;
+        }
+        .features-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        .feature-item {
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .feature-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .feature-desc {
+            font-size: 14px;
+            color: #8e8e93;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>ResQNav 2026</h1>
+            <p>Modern Emergency Response • Production-Ready UI</p>
+        </div>
+        
+        <div class="mockup-grid">
+            <!-- Home Page -->
+            <div class="phone-frame">
+                <div class="screen home-screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 🔋</span>
+                    </div>
+                    
+                    <div class="home-content">
+                        <div class="greeting">
+                            <h2>Hey there! 👋</h2>
+                            <p>Stay safe, we're here to help</p>
+                        </div>
+
+                        <div class="sos-hero">
+                            <div class="sos-icon">🚨</div>
+                            <h3>Emergency SOS</h3>
+                            <p>Instant help when you need it</p>
+                        </div>
+
+                        <div class="quick-actions">
+                            <div class="quick-action-btn">
+                                <div class="quick-action-icon">🔍</div>
+                                <div class="quick-action-label">Explore</div>
+                            </div>
+                            <div class="quick-action-btn">
+                                <div class="quick-action-icon">📋</div>
+                                <div class="quick-action-label">History</div>
+                            </div>
+                            <div class="quick-action-btn">
+                                <div class="quick-action-icon">👤</div>
+                                <div class="quick-action-label">Profile</div>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">📍</div>
+                            <div class="info-text">
+                                <h4>Nearby Services</h4>
+                                <p>5 emergency services within 3 km</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <div class="nav-icon">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">1. Home - Clean & Quick</div>
+            </div>
+
+            <!-- Explore Page -->
+            <div class="phone-frame">
+                <div class="screen explore-screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 🔋</span>
+                    </div>
+                    
+                    <div class="explore-content">
+                        <div class="page-header">
+                            <h2>Explore Services</h2>
+                            <p>Find emergency help near you</p>
+                        </div>
+
+                        <div class="search-box">
+                            <span style="font-size: 20px;">🔍</span>
+                            <input type="text" placeholder="Search location or service..." />
+                        </div>
+
+                        <div class="services-grid">
+                            <div class="service-card-modern hospital-card">
+                                <div class="service-icon-modern">🏥</div>
+                                <div class="service-name">Hospital</div>
+                                <div class="service-count">8 nearby</div>
+                            </div>
+                            <div class="service-card-modern ambulance-card">
+                                <div class="service-icon-modern">🚑</div>
+                                <div class="service-name">Ambulance</div>
+                                <div class="service-count">24/7 Available</div>
+                            </div>
+                            <div class="service-card-modern police-card">
+                                <div class="service-icon-modern">👮</div>
+                                <div class="service-name">Police</div>
+                                <div class="service-count">3 stations</div>
+                            </div>
+                            <div class="service-card-modern fire-card">
+                                <div class="service-icon-modern">🚒</div>
+                                <div class="service-name">Fire Station</div>
+                                <div class="service-count">2 nearby</div>
+                            </div>
+                            <div class="service-card-modern pharmacy-card">
+                                <div class="service-icon-modern">💊</div>
+                                <div class="service-name">Pharmacy</div>
+                                <div class="service-count">12 open now</div>
+                            </div>
+                            <div class="service-card-modern mechanic-card">
+                                <div class="service-icon-modern">🔧</div>
+                                <div class="service-name">Mechanic</div>
+                                <div class="service-count">5 nearby</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item">
+                            <div class="nav-icon">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">2. Explore - Vibrant Cards</div>
+            </div>
+
+            <!-- Emergency Page -->
+            <div class="phone-frame">
+                <div class="screen emergency-screen">
+                    <div class="status-bar" style="background: transparent; color: white;">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 🔋</span>
+                    </div>
+                    
+                    <div class="emergency-content">
+                        <div class="emergency-title">
+                            <h1>Emergency</h1>
+                            <p>Help is just one tap away</p>
+                        </div>
+
+                        <div class="sos-button-main">
+                            <div class="sos-text">SOS</div>
+                            <div class="sos-subtext">PRESS & HOLD</div>
+                        </div>
+
+                        <div class="emergency-contacts">
+                            <h3>Quick Contacts</h3>
+                            <div class="contact-card">
+                                <div class="contact-icon">🏥</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">Hospital</div>
+                                    <div class="contact-detail">Apollo - 2.3 km away</div>
+                                </div>
+                                <span style="font-size: 20px;">📞</span>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-icon">🚑</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">Ambulance</div>
+                                    <div class="contact-detail">Emergency Service 24/7</div>
+                                </div>
+                                <span style="font-size: 20px;">📞</span>
+                            </div>
+                            <div class="contact-card">
+                                <div class="contact-icon">👮</div>
+                                <div class="contact-info">
+                                    <div class="contact-name">Police</div>
+                                    <div class="contact-detail">Vikhroli - 1.8 km away</div>
+                                </div>
+                                <span style="font-size: 20px;">📞</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-top-color: rgba(255,255,255,0.2); color: white;">
+                        <div class="nav-item" style="color: rgba(255,255,255,0.7);">
+                            <div class="nav-icon">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item" style="color: rgba(255,255,255,0.7);">
+                            <div class="nav-icon">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-item" style="color: white;">
+                            <div class="nav-icon">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-item" style="color: rgba(255,255,255,0.7);">
+                            <div class="nav-icon">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">3. Emergency - Bold & Clear</div>
+            </div>
+
+            <!-- History Page -->
+            <div class="phone-frame">
+                <div class="screen history-screen">
+                    <div class="status-bar" style="background: #f8f9fa;">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 🔋</span>
+                    </div>
+                    
+                    <div class="history-content">
+                        <div class="page-header">
+                            <h2>History</h2>
+                            <p>Your recent searches</p>
+                        </div>
+
+                        <div class="history-item hospital-history">
+                            <div class="history-header">
+                                <div class="history-service">
+                                    <span>🏥</span>
+                                    <span>Hospital Search</span>
+                                </div>
+                                <div class="history-time">2h ago</div>
+                            </div>
+                            <div class="history-details">
+                                Apollo Hospital, Vikhroli<br>
+                                Distance: 3.2 km • Status: Open
+                            </div>
+                        </div>
+
+                        <div class="history-item ambulance-history">
+                            <div class="history-header">
+                                <div class="history-service">
+                                    <span>🚑</span>
+                                    <span>Ambulance</span>
+                                </div>
+                                <div class="history-time">1d ago</div>
+                            </div>
+                            <div class="history-details">
+                                Emergency Ambulance Service<br>
+                                Response time: 8 minutes
+                            </div>
+                        </div>
+
+                        <div class="history-item police-history">
+                            <div class="history-header">
+                                <div class="history-service">
+                                    <span>👮</span>
+                                    <span>Police Station</span>
+                                </div>
+                                <div class="history-time">3d ago</div>
+                            </div>
+                            <div class="history-details">
+                                Vikhroli East Police Station<br>
+                                Distance: 1.5 km • Status: Open 24/7
+                            </div>
+                        </div>
+
+                        <div class="history-item pharmacy-history">
+                            <div class="history-header">
+                                <div class="history-service">
+                                    <span>💊</span>
+                                    <span>Pharmacy</span>
+                                </div>
+                                <div class="history-time">1w ago</div>
+                            </div>
+                            <div class="history-details">
+                                MedPlus Pharmacy<br>
+                                Open until 10 PM
+                            </div>
+                        </div>
+
+                        <div class="empty-state">
+                            <div class="empty-icon">✨</div>
+                            <div class="empty-text">You're all caught up!</div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item">
+                            <div class="nav-icon">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">4. History - Clean Timeline</div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="phone-frame">
+                <div class="screen profile-screen">
+                    <div class="status-bar" style="background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%); color: white;">
+                        <span>9:41</span>
+                        <span>📶 ⚡ 🔋</span>
+                    </div>
+                    
+                    <div class="profile-banner">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-name">User Name</div>
+                        <div class="profile-email">user@example.com</div>
+                    </div>
+
+                    <div class="profile-content">
+                        <div class="settings-card">
+                            <div class="settings-card-title">Account</div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">📧</div>
+                                    <div class="option-label">Email</div>
+                                </div>
+                                <div class="option-value">Edit →</div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">📱</div>
+                                    <div class="option-label">Phone</div>
+                                </div>
+                                <div class="option-value">Edit →</div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">🔒</div>
+                                    <div class="option-label">Password</div>
+                                </div>
+                                <div class="option-value">Change →</div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Preferences</div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">🔔</div>
+                                    <div class="option-label">Notifications</div>
+                                </div>
+                                <div class="option-toggle"></div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">📍</div>
+                                    <div class="option-label">Location</div>
+                                </div>
+                                <div class="option-toggle"></div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Support</div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">❓</div>
+                                    <div class="option-label">Help Center</div>
+                                </div>
+                                <div class="option-value">→</div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">📄</div>
+                                    <div class="option-label">Privacy Policy</div>
+                                </div>
+                                <div class="option-value">→</div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-left">
+                                    <div class="option-icon">🚪</div>
+                                    <div class="option-label">Logout</div>
+                                </div>
+                                <div class="option-value" style="color: #FF3B30;">→</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item">
+                            <div class="nav-icon">🏠</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🔍</div>
+                            <div>Explore</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🚨</div>
+                            <div>Emergency</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon">👤</div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-title">5. Profile - Modern iOS Style</div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2>✨ 2026 Modern Design Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Lightning Fast</div>
+                    <div class="feature-desc">Minimal UI with instant load times. No unnecessary animations.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Clean & Modern</div>
+                    <div class="feature-desc">iOS-inspired design with Inter font. Professional yet friendly.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔴</div>
+                    <div class="feature-title">Clear Emergency</div>
+                    <div class="feature-desc">Red = danger. Bold SOS button. No confusion in crisis.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title">Thumb-Friendly</div>
+                    <div class="feature-desc">Bottom navigation. Large tap targets. One-handed use.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌈</div>
+                    <div class="feature-title">Color-Coded</div>
+                    <div class="feature-desc">Each service has unique color. Instant visual recognition.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-title">Micro-interactions</div>
+                    <div class="feature-desc">Subtle hover effects. Smooth transitions. Feels alive.</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%); border-radius: 24px; color: white;">
+            <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 16px;">Ready for Production</h2>
+            <p style="font-size: 18px; opacity: 0.95;">This design works in 2026 because it's:</p>
+            <div style="max-width: 600px; margin: 20px auto; text-align: left; font-size: 16px; line-height: 2;">
+                ✅ Fast & minimal (Gen-Z attention span)<br>
+                ✅ Bold emergency features (clear purpose)<br>
+                ✅ Instagram-worthy aesthetic (shareability)<br>
+                ✅ iOS-style polish (feels premium)<br>
+                ✅ Accessible colors (WCAG compliant)<br>
+                ✅ Thumb-friendly (mobile-first)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

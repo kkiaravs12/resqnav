@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/theme_provider.dart';
 import '../../services/api_service.dart';
 
 // ============================================================
@@ -461,35 +463,46 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   // ── Preferences ──────────────────────────────────────────
-  Widget _buildPreferencesCard() => _card(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _cardTitle(Icons.settings_rounded, 'Preferences'),
-        const SizedBox(height: 4),
-        _switchTile(
-          Icons.notifications_rounded, 'Notifications',
-          'Receive route updates and alerts.',
-          _notificationsEnabled,
-          (v) => setState(() => _notificationsEnabled = v),
-        ),
-        const Divider(height: 1),
-        _switchTile(
-          Icons.location_on_rounded, 'Location access',
-          'Allow ResQNav to use your location.',
-          _locationEnabled,
-          (v) => setState(() => _locationEnabled = v),
-        ),
-        const Divider(height: 1),
-        _switchTile(
-          Icons.warning_amber_rounded, 'Emergency alerts',
-          'Show emergency service information.',
-          _emergencyAlertsEnabled,
-          (v) => setState(() => _emergencyAlertsEnabled = v),
-        ),
-      ],
-    ),
-  );
+  Widget _buildPreferencesCard() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    
+    return _card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _cardTitle(Icons.settings_rounded, 'Preferences'),
+          const SizedBox(height: 4),
+          _switchTile(
+            Icons.dark_mode_rounded, 'Dark Mode',
+            'Use dark theme for the app.',
+            themeProvider.isDarkMode,
+            (v) => themeProvider.toggleTheme(),
+          ),
+          const Divider(height: 1),
+          _switchTile(
+            Icons.notifications_rounded, 'Notifications',
+            'Receive route updates and alerts.',
+            _notificationsEnabled,
+            (v) => setState(() => _notificationsEnabled = v),
+          ),
+          const Divider(height: 1),
+          _switchTile(
+            Icons.location_on_rounded, 'Location access',
+            'Allow ResQNav to use your location.',
+            _locationEnabled,
+            (v) => setState(() => _locationEnabled = v),
+          ),
+          const Divider(height: 1),
+          _switchTile(
+            Icons.warning_amber_rounded, 'Emergency alerts',
+            'Show emergency service information.',
+            _emergencyAlertsEnabled,
+            (v) => setState(() => _emergencyAlertsEnabled = v),
+          ),
+        ],
+      ),
+    );
+  }
 
   // ── About ─────────────────────────────────────────────────
   Widget _buildAboutCard() => _card(
