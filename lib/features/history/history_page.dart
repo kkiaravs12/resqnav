@@ -83,10 +83,16 @@ class _HistoryPageState extends State<HistoryPage> {
       });
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() { _loading = false; _errorMessage = e.message; });
+      // 401 = not logged in or token expired — show empty, not error
+      if (e.statusCode == 401) {
+        setState(() { _loading = false; _allHistory = []; });
+      } else {
+        setState(() { _loading = false; _errorMessage = e.message; });
+      }
     } catch (e) {
       if (!mounted) return;
-      setState(() { _loading = false; _errorMessage = 'Unable to load your history.'; });
+      // Network error — show empty state instead of error
+      setState(() { _loading = false; _allHistory = []; });
     }
   }
 
