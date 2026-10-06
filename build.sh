@@ -13,5 +13,5 @@ fi
 # Setup Flutter
 export PATH="$PATH:`pwd`/flutter/bin"
 flutter config --enable-web
-flutter pub get --no-example
-flutter build web --release --web-renderer canvaskit
+flutter pub get
+flutter build web --release --no-tree-shake-icons
