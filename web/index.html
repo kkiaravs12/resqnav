@@ -17,7 +17,58 @@
   <!-- Google Maps JavaScript API -->
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places,geometry"></script>
 
+  <!-- Leaflet for web map fallback -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <style>
+    #map {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+
   <script>
+    var resqnavMap = null;
+
+    // Initialize Leaflet map for web
+    function initResQNavMap(containerId) {
+      if (resqnavMap) return resqnavMap;
+      
+      const container = document.getElementById(containerId);
+      if (!container) {
+        console.warn('Map container not found: ' + containerId);
+        return null;
+      }
+
+      // Default to Mumbai
+      resqnavMap = L.map(containerId).setView([19.0760, 72.8777], 13);
+      
+      // OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+      }).addTo(resqnavMap);
+
+      return resqnavMap;
+    }
+
+    // Add marker to map
+    function addMarkerToMap(lat, lng, title) {
+      if (!resqnavMap) return;
+      L.marker([lat, lng]).addTo(resqnavMap)
+        .bindPopup(title);
+    }
+
+    // Center map on location
+    function centerMapOnLocation(lat, lng) {
+      if (!resqnavMap) return;
+      resqnavMap.setView([lat, lng], 15);
+    }
+
     // ResQNav Places - used by explore_page_web.dart
     function initResQNavPlaces(containerId, callback) {
       try {
