@@ -507,11 +507,6 @@ class _ExplorePageState extends State<ExplorePage> {
   // ─────────────────────────────────────────────────────────────────────────
 
   Widget _buildMap() {
-    // On web, GoogleMap doesn't work - use HtmlElementView instead
-    if (kIsWeb) {
-      return HtmlElementView(viewType: 'google-map-web');
-    }
-    
     return GoogleMap(
       initialCameraPosition: const CameraPosition(target: _defaultLocation, zoom: 13),
       markers: _markers,

@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
-import 'dart:ui_web' as ui;
 
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
@@ -18,18 +17,6 @@ import 'services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Register web view for Google Maps
-  ui.platformViewRegistry.registerViewFactory(
-    'google-map-web',
-    (int viewId) {
-      final div = ui.DomDocument.instance.createElement('div');
-      div.style.width = '100%';
-      div.style.height = '100%';
-      div.id = 'gmap';
-      return div;
-    },
-  );
   
   try {
     await ApiService.initializeAuth();
