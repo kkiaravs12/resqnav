@@ -49,23 +49,22 @@ class _ResQNavAppState extends State<ResQNavApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return MaterialApp(
-          title: AppConstants.appName,
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: _authenticated
-              ? MainShell(
-                  onLogout: () => setState(() => _authenticated = false),
-                )
-              : AuthPage(
-                  onAuthenticated: () => setState(() => _authenticated = true),
-                ),
-        );
-      },
+    // Listen to theme changes and rebuild when theme changes
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return MaterialApp(
+      title: AppConstants.appName,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: _authenticated
+          ? MainShell(
+              onLogout: () => setState(() => _authenticated = false),
+            )
+          : AuthPage(
+              onAuthenticated: () => setState(() => _authenticated = true),
+            ),
     );
   }
 }
