@@ -507,6 +507,33 @@ class _ExplorePageState extends State<ExplorePage> {
   // ─────────────────────────────────────────────────────────────────────────
 
   Widget _buildMap() {
+    if (kIsWeb) {
+      return Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.map, size: 48, color: Theme.of(context).primaryColor),
+              const SizedBox(height: 16),
+              const Text(
+                'Map view available on mobile',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Use search to find services',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    
     return GoogleMap(
       initialCameraPosition: const CameraPosition(target: _defaultLocation, zoom: 13),
       markers: _markers,
