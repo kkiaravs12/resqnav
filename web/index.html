@@ -6,21 +6,91 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="ResQNav - Emergency Response App">
-
-  <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="ResQNav">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
   <title>ResQNav</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Google Maps JavaScript API - Required for map to show on web -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ"></script>
+  <!-- Google Maps JavaScript API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places&callback=initMap" async defer></script>
+
+  <script>
+    // Google Maps callback
+    function initMap() {
+      console.log('Google Maps loaded');
+    }
+
+    // ResQNav Places - used by explore_page_web.dart
+    function initResQNavPlaces(containerId, callback) {
+      try {
+        if (typeof google === 'undefined') {
+          console.warn('Google Maps not loaded yet');
+          return;
+        }
+        var input = document.getElementById(containerId);
+        if (!input) {
+          console.warn('Element not found: ' + containerId);
+          return;
+        }
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+          var place = autocomplete.getPlace();
+          if (place && place.geometry) {
+            callback(
+              place.name || '',
+              place.formatted_address || '',
+              place.geometry.location.lat(),
+              place.geometry.location.lng()
+            );
+          }
+        });
+      } catch (e) {
+        console.error('initResQNavPlaces error:', e);
+      }
+    }
+
+    // ResQNav Route - used by explore_page_web.dart
+    function computeResQNavRoute(originLat, originLng, destLat, destLng, travelMode, callback) {
+      try {
+        if (typeof google === 'undefined') {
+          callback('[]', 0, 0);
+          return;
+        }
+        var directionsService = new google.maps.DirectionsService();
+        var mode = travelMode === 'WALKING'
+          ? google.maps.TravelMode.WALKING
+          : google.maps.TravelMode.DRIVING;
+
+        directionsService.route({
+          origin: new google.maps.LatLng(originLat, originLng),
+          destination: new google.maps.LatLng(destLat, destLng),
+          travelMode: mode
+        }, function (result, status) {
+          if (status === 'OK' && result.routes.length > 0) {
+            var leg = result.routes[0].legs[0];
+            var points = google.maps.geometry
+              ? google.maps.geometry.encoding.decodePath(
+                  result.routes[0].overview_polyline
+                ).map(function (p) {
+                  return { lat: p.lat(), lng: p.lng() };
+                })
+              : [];
+            var dist = leg.distance ? leg.distance.value / 1000 : 0;
+            var dur = leg.duration ? leg.duration.value / 60 : 0;
+            callback(JSON.stringify(points), dist, dur);
+          } else {
+            callback('[]', 0, 0);
+          }
+        });
+      } catch (e) {
+        console.error('computeResQNavRoute error:', e);
+        callback('[]', 0, 0);
+      }
+    }
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
