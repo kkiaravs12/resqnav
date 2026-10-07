@@ -527,10 +527,16 @@ class _ExplorePageState extends State<ExplorePage> {
   // ─────────────────────────────────────────────────────────────────────────
 
   Widget _buildSearchSection() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppTheme.darkSurface : Colors.white;
+    final textColor = isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary;
+    final borderColor = isDark ? AppTheme.darkBorder : AppTheme.border;
+    final hintColor = isDark ? AppTheme.darkTextSecondary : AppTheme.textHint;
+    
     return SafeArea(
       bottom: false,
       child: Container(
-        color: Colors.white,
+        color: bgColor,
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -541,20 +547,19 @@ class _ExplorePageState extends State<ExplorePage> {
                 Container(
                   width: 36, height: 36,
                   decoration: BoxDecoration(
-                    color: AppTheme.primary,
+                    color: isDark ? AppTheme.darkPrimary : AppTheme.primary,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(Icons.explore_rounded, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                   child: Text('Explore',
                     style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
+                      fontSize: 18, fontWeight: FontWeight.w800, color: textColor)),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.notifications_outlined, size: 24),
-                  color: AppTheme.textSecondary,
+                  icon: Icon(Icons.notifications_outlined, size: 24, color: hintColor),
                   onPressed: null,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -563,12 +568,12 @@ class _ExplorePageState extends State<ExplorePage> {
                 Container(
                   width: 36, height: 36,
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceAlt,
+                    color: isDark ? AppTheme.darkSurfaceAlt : AppTheme.surfaceAlt,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text('K', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textPrimary)),
+                      fontSize: 14, fontWeight: FontWeight.w700, color: textColor)),
                   ),
                 ),
               ],
@@ -580,7 +585,7 @@ class _ExplorePageState extends State<ExplorePage> {
               controller: _searchController,
               focusNode: _searchFocus,
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search, color: AppTheme.textHint, size: 22),
+                prefixIcon: Icon(Icons.search, color: hintColor, size: 22),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? GestureDetector(
                         onTap: () {
@@ -590,28 +595,28 @@ class _ExplorePageState extends State<ExplorePage> {
                             _showSuggestions = false;
                           });
                         },
-                        child: const Icon(Icons.close, color: AppTheme.textHint, size: 20),
+                        child: Icon(Icons.close, color: hintColor, size: 20),
                       )
                     : null,
                 hintText: 'Search for a place...',
-                hintStyle: const TextStyle(color: AppTheme.textHint, fontSize: 15),
+                hintStyle: TextStyle(color: hintColor, fontSize: 15),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppTheme.border),
+                  borderSide: BorderSide(color: borderColor),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppTheme.border),
+                  borderSide: BorderSide(color: borderColor),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppTheme.primary, width: 2),
+                  borderSide: BorderSide(color: isDark ? AppTheme.darkPrimary : AppTheme.primary, width: 2),
                 ),
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: bgColor,
                 contentPadding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 15),
+              style: TextStyle(color: textColor, fontSize: 15),
               onChanged: _onSearchChanged,
               onSubmitted: (_) {
                 if (_suggestions.isNotEmpty) _selectSuggestion(_suggestions.first);
@@ -623,9 +628,9 @@ class _ExplorePageState extends State<ExplorePage> {
               Container(
                 margin: const EdgeInsets.only(top: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: bgColor,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.border),
+                  border: Border.all(color: borderColor),
                 ),
                 child: _isSearching
                     ? const Padding(
@@ -639,7 +644,7 @@ class _ExplorePageState extends State<ExplorePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _suggestions.length,
                         separatorBuilder: (_, __) =>
-                            Divider(height: 1, color: Colors.grey.shade100),
+                            Divider(height: 1, color: borderColor),
                         itemBuilder: (_, i) {
                           final s = _suggestions[i];
                           return _SuggestionTile(

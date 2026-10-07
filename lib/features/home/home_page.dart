@@ -431,6 +431,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildEmergencyCard(BuildContext context, {required bool mobile}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? Color(0xFF2A1515) : Color(0xFFFFF5F5);
+    final borderColor = isDark ? Color(0xFF5C2626) : Color(0xFFFECACA);
+    final textColor = isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary;
+    final subtextColor = isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary;
+    
     return Material(
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(AppTheme.radiusXL),
@@ -441,9 +447,9 @@ class _HomePageState extends State<HomePage> {
           width: double.infinity,
           padding: EdgeInsets.all(mobile ? 18 : 22),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF5F5),
+            color: bgColor,
             borderRadius: BorderRadius.circular(AppTheme.radiusXL),
-            border: Border.all(color: const Color(0xFFFECACA)),
+            border: Border.all(color: borderColor),
           ),
           child: mobile
               ? Row(
@@ -454,12 +460,12 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Need emergency help?',
+                          Text('Need emergency help?',
                               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800,
-                                  color: AppTheme.textPrimary)),
+                                  color: textColor)),
                           const SizedBox(height: 4),
-                          const Text('Hospitals, police, fire & more.',
-                              style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
+                          Text('Hospitals, police, fire & more.',
+                              style: TextStyle(fontSize: 12, color: subtextColor)),
                           const SizedBox(height: 10),
                           _emergencyCTA(),
                         ],
@@ -472,14 +478,14 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     _emergencyIcon(mobile),
                     const SizedBox(height: 14),
-                    const Text('Need emergency help?',
+                    Text('Need emergency help?',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,
-                            color: AppTheme.textPrimary)),
+                            color: textColor)),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                         'Find nearby emergency services using your location.',
                         style: TextStyle(fontSize: 13, height: 1.4,
-                            color: AppTheme.textSecondary)),
+                            color: subtextColor)),
                     const SizedBox(height: 16),
                     _emergencyCTA(),
                   ],
