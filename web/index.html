@@ -15,14 +15,9 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- Google Maps JavaScript API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places,geometry"></script>
 
   <script>
-    // Google Maps callback
-    function initMap() {
-      console.log('Google Maps loaded');
-    }
-
     // ResQNav Places - used by explore_page_web.dart
     function initResQNavPlaces(containerId, callback) {
       try {

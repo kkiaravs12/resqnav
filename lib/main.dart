@@ -100,8 +100,10 @@ class _MainShellState extends State<MainShell> {
   // ══════════════════════════════════════════════════════════
 
   Widget _buildMobile() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -111,22 +113,26 @@ class _MainShellState extends State<MainShell> {
         ),
       ),
       bottomNavigationBar: _mobileNavBar(),
-      // ── Global SOS FAB ──────────────────────────────────
       floatingActionButton: _selectedIndex != 2
-          ? _SOSButton(
-              onTap: () => _handleSOSTrigger(context),
-            )
+          ? _SOSButton(onTap: () => _handleSOSTrigger(context))
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
   Widget _mobileTopBar() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final surfaceColor = isDark ? AppTheme.darkSurface : Colors.white;
+    final borderColor = isDark ? AppTheme.darkBorder : AppTheme.border;
+    final textColor = isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary;
+    final primaryColor = isDark ? AppTheme.darkPrimary : AppTheme.primary;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: AppTheme.border)),
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        border: Border(bottom: BorderSide(color: borderColor)),
       ),
       child: Row(
         children: [
@@ -144,20 +150,20 @@ class _MainShellState extends State<MainShell> {
           Expanded(
             child: Text(
               _titles[_selectedIndex],
-              style: const TextStyle(
-                  fontSize: 19, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
+              style: TextStyle(
+                  fontSize: 19, fontWeight: FontWeight.w700, color: textColor),
             ),
           ),
           IconButton(
             onPressed: _showNotifications,
-            icon: const Icon(Icons.notifications_none_rounded, color: AppTheme.textPrimary),
+            icon: Icon(Icons.notifications_none_rounded, color: textColor),
           ),
           CircleAvatar(
             radius: 17,
-            backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
+            backgroundColor: primaryColor.withValues(alpha: 0.12),
             child: Text(ApiService.displayInitial,
-                style: const TextStyle(
-                    color: AppTheme.primary, fontWeight: FontWeight.w700, fontSize: 13)),
+                style: TextStyle(
+                    color: primaryColor, fontWeight: FontWeight.w700, fontSize: 13)),
           ),
           const SizedBox(width: 4),
         ],
@@ -166,16 +172,16 @@ class _MainShellState extends State<MainShell> {
   }
 
   Widget _mobileNavBar() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final surfaceColor = isDark ? AppTheme.darkSurface : Colors.white;
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.navy.withValues(alpha: 0.06),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
+        color: surfaceColor,
+        border: Border(top: BorderSide(
+          color: isDark ? AppTheme.darkBorder : AppTheme.border,
+        )),
       ),
       child: SafeArea(
         top: false,
@@ -204,8 +210,10 @@ class _MainShellState extends State<MainShell> {
     bool isEmergency = false,
   }) {
     final sel = _selectedIndex == index;
-    final colour =
-        isEmergency ? AppTheme.danger : (sel ? AppTheme.primary : AppTheme.textSecondary);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = isDark ? AppTheme.darkPrimary : AppTheme.primary;
+    final secondary = isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary;
+    final colour = isEmergency ? AppTheme.danger : (sel ? primary : secondary);
 
     return Expanded(
       child: GestureDetector(
@@ -259,13 +267,17 @@ class _MainShellState extends State<MainShell> {
   }
 
   Widget _desktopSidebar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final surfaceColor = isDark ? AppTheme.darkSurface : Colors.white;
+    final textColor = isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary;
+    final surfaceAlt = isDark ? AppTheme.darkSurfaceAlt : AppTheme.surfaceAlt;
+
     return Container(
       width: 248,
-      color: Colors.white,
+      color: surfaceColor,
       child: Column(
         children: [
           const SizedBox(height: 26),
-          // Logo
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22),
             child: Row(
@@ -280,14 +292,13 @@ class _MainShellState extends State<MainShell> {
                   child: const Icon(Icons.navigation_rounded, color: Colors.white, size: 22),
                 ),
                 const SizedBox(width: 11),
-                const Text('ResQNav',
+                Text('ResQNav',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800,
-                        color: AppTheme.textPrimary)),
+                        color: textColor)),
               ],
             ),
           ),
           const SizedBox(height: 32),
-
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -301,8 +312,6 @@ class _MainShellState extends State<MainShell> {
               ],
             ),
           ),
-
-          // ── SOS panel ────────────────────────────────────
           Padding(
             padding: const EdgeInsets.all(14),
             child: _SOSButton(
@@ -310,25 +319,24 @@ class _MainShellState extends State<MainShell> {
               onTap: () => _handleSOSTrigger(context),
             ),
           ),
-
-          // Location pill
           Container(
             margin: const EdgeInsets.fromLTRB(14, 0, 14, 18),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: AppTheme.surfaceAlt,
+              color: surfaceAlt,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.location_on_outlined, color: AppTheme.primary, size: 18),
-                SizedBox(width: 8),
+                Icon(Icons.location_on_outlined,
+                    color: isDark ? AppTheme.darkPrimary : AppTheme.primary, size: 18),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text('Location services',
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
-                          color: AppTheme.textPrimary)),
+                          color: textColor)),
                 ),
-                Icon(Icons.check_circle, color: AppTheme.success, size: 16),
+                const Icon(Icons.check_circle, color: AppTheme.success, size: 16),
               ],
             ),
           ),
@@ -345,8 +353,10 @@ class _MainShellState extends State<MainShell> {
     bool isEmergency = false,
   }) {
     final sel = _selectedIndex == index;
-    final colour =
-        isEmergency ? AppTheme.danger : (sel ? AppTheme.primary : AppTheme.textSecondary);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = isDark ? AppTheme.darkPrimary : AppTheme.primary;
+    final secondary = isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary;
+    final colour = isEmergency ? AppTheme.danger : (sel ? primary : secondary);
 
     return GestureDetector(
       onTap: () => setState(() => _selectedIndex = index),
@@ -374,27 +384,29 @@ class _MainShellState extends State<MainShell> {
   }
 
   Widget _desktopTopBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final surfaceColor = isDark ? AppTheme.darkSurface : Colors.white;
+    final textColor = isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary;
+    final primaryColor = isDark ? AppTheme.darkPrimary : AppTheme.primary;
+
     return Container(
       height: 68,
       padding: const EdgeInsets.symmetric(horizontal: 28),
-      color: Colors.white,
+      color: surfaceColor,
       child: Row(
         children: [
           Text(_titles[_selectedIndex],
-              style: const TextStyle(
-                  fontSize: 21, fontWeight: FontWeight.w700, color: AppTheme.textPrimary)),
+              style: TextStyle(
+                  fontSize: 21, fontWeight: FontWeight.w700, color: textColor)),
           const Spacer(),
           IconButton(
             onPressed: _showNotifications,
-            icon: const Icon(Icons.notifications_none_rounded),
+            icon: Icon(Icons.notifications_none_rounded, color: textColor),
             tooltip: 'Notifications',
           ),
           const SizedBox(width: 8),
-          // Profile button - click to go to profile page
           InkWell(
-            onTap: () {
-              setState(() => _selectedIndex = 4); // Navigate to Profile page
-            },
+            onTap: () => setState(() => _selectedIndex = 4),
             borderRadius: BorderRadius.circular(24),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -402,15 +414,15 @@ class _MainShellState extends State<MainShell> {
                 children: [
                   CircleAvatar(
                     radius: 18,
-                    backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
+                    backgroundColor: primaryColor.withValues(alpha: 0.12),
                     child: Text(ApiService.displayInitial,
-                        style: const TextStyle(
-                            color: AppTheme.primary, fontWeight: FontWeight.w700, fontSize: 13)),
+                        style: TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.w700, fontSize: 13)),
                   ),
                   const SizedBox(width: 8),
                   Text(ApiService.displayName,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                      style: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600, color: textColor)),
                 ],
               ),
             ),
