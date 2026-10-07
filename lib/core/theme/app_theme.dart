@@ -104,29 +104,29 @@ class AppTheme {
   }
 
   // ============================================================
-  // DARK THEME COLORS
+  // DARK THEME COLORS - Black with Neon Accents
   // ============================================================
-  static const Color darkBackground = Color(0xFF121212);
-  static const Color darkSurface = Color(0xFF1F1F1F);
-  static const Color darkSurfaceAlt = Color(0xFF161616);
-  static const Color darkBorder = Color(0xFF252525);
+  static const Color darkBackground = Color(0xFF0A0A0A);
+  static const Color darkSurface = Color(0xFF1A1A1A);
+  static const Color darkSurfaceAlt = Color(0xFF252525);
+  static const Color darkBorder = Color(0xFF333333);
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
-  static const Color darkTextSecondary = Color(0xFF888888);
-  static const Color darkPrimary = Color(0xFFFF0844);
-  static const Color darkPrimaryLight = Color(0xFFFF6B9D);
+  static const Color darkTextSecondary = Color(0xFFB8B8B8);
+  static const Color darkPrimary = Color(0xFF00FF88);
+  static const Color darkPrimaryLight = Color(0xFF33FFAA);
 
   static List<BoxShadow> get darkCardShadow => [
-        const BoxShadow(
-          color: Color(0xFF0A0A0A),
-          blurRadius: 12,
-          offset: Offset(0, 4),
+        BoxShadow(
+          color: Color(0xFF00FF88).withValues(alpha: 0.05),
+          blurRadius: 8,
+          offset: const Offset(0, 2),
         ),
       ];
 
   static List<BoxShadow> get darkPrimaryGlow => [
         BoxShadow(
-          color: darkPrimary.withValues(alpha: 0.3),
-          blurRadius: 20,
+          color: Color(0xFF00FF88).withValues(alpha: 0.3),
+          blurRadius: 16,
           offset: const Offset(0, 4),
         ),
       ];
