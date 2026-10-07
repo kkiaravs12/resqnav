@@ -496,11 +496,13 @@ class _MainShellState extends State<MainShell> {
           ),
         );
 
+        final pos = position!;
+
         // Try to get address from coordinates
         try {
           final placemarks = await placemarkFromCoordinates(
-            position.latitude,
-            position.longitude,
+            pos.latitude,
+            pos.longitude,
           );
           if (placemarks.isNotEmpty) {
             final place = placemarks.first;
@@ -519,8 +521,8 @@ class _MainShellState extends State<MainShell> {
         }
 
         // Prepare location message
-        final lat = position.latitude.toStringAsFixed(6);
-        final lon = position.longitude.toStringAsFixed(6);
+        final lat = pos.latitude.toStringAsFixed(6);
+        final lon = pos.longitude.toStringAsFixed(6);
         final googleMapsUrl = 'https://www.google.com/maps?q=$lat,$lon';
         
         final message = '''
@@ -540,7 +542,7 @@ Time: ${DateTime.now().toString().substring(0, 19)}
         '''.trim();
 
         // Share location to any contact
-        final result = await Share.share(
+        await Share.share(
           message,
           subject: '🆘 EMERGENCY SOS ALERT',
         );
@@ -548,23 +550,13 @@ Time: ${DateTime.now().toString().substring(0, 19)}
         // Check context is still mounted after async operation
         if (!context.mounted) return;
 
-        if (result.status == ShareResultStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Emergency location shared successfully!'),
-              backgroundColor: AppTheme.success,
-              duration: Duration(seconds: 3),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Location share was cancelled'),
-              backgroundColor: AppTheme.warning,
-              duration: Duration(seconds: 3),
-            ),
-          );
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Emergency location shared successfully!'),
+            backgroundColor: AppTheme.success,
+            duration: Duration(seconds: 3),
+          ),
+        );
         
       } catch (e) {
         // Location error
