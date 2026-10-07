@@ -230,7 +230,7 @@ class _HistoryPageState extends State<HistoryPage> {
       }
 
       final pos = await Geolocator.getCurrentPosition(
-          locationSettings: const LocationSettings(accuracy: LocationAccuracy.high));
+          desiredAccuracy: LocationAccuracy.high);
       return LatLng(pos.latitude, pos.longitude);
     } catch (_) {
       _snack('Unable to get your location.');

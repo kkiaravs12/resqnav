@@ -128,10 +128,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
       final position =
           await Geolocator.getCurrentPosition(
-        locationSettings:
-            const LocationSettings(
-          accuracy: LocationAccuracy.high,
-        ),
+        desiredAccuracy: LocationAccuracy.high,
       );
 
       final location = LatLng(

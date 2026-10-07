@@ -188,7 +188,7 @@ class _ExplorePageState extends State<ExplorePage> {
       }
 
       final pos = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+        desiredAccuracy: LocationAccuracy.high,
       );
       if (!mounted) return;
 
