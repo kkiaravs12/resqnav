@@ -15,9 +15,26 @@
   <!-- <link rel="manifest" href="manifest.json"> -->
 
   <!-- Google Maps JavaScript API -->
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places,geometry"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbsB1UQYtHbRBTuMk3YRrKgjEH8GpZEQQ&libraries=places,geometry&callback=initMap"></script>
+
+  <style>
+    #gmap {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 
   <script>
+    let map = null;
+
+    function initMap() {
+      const mumbai = { lat: 19.0760, lng: 72.8777 };
+      map = new google.maps.Map(document.getElementById('gmap'), {
+        zoom: 13,
+        center: mumbai,
+      });
+    }
+
     // ResQNav Places - used by explore_page_web.dart
     function initResQNavPlaces(containerId, callback) {
       try {
@@ -88,6 +105,7 @@
   </script>
 </head>
 <body>
+  <div id="gmap" style="display:none;"></div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
